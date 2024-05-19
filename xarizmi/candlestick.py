@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+from pydantic import NonNegativeFloat
 
 
 class Candlestick(BaseModel):
-    close: float
-    open: float
-    low: float
-    high: float
+    close: NonNegativeFloat
+    open: NonNegativeFloat
+    low: NonNegativeFloat
+    high: NonNegativeFloat
