@@ -22,7 +22,7 @@ setup(
     packages=find_packages(include=["xarizmi", "xarizmi.*"]),
     version=xarizmi.__version__,
     install_requires=[],
-    python_requires=">=3.10",
+    python_requires=">=3.11",
     license="Apache 2.0",
     url="https://github.com/javadebadi/xarizmi",
     long_description=long_description,
