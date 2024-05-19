@@ -2,6 +2,7 @@ import pytest
 from pydantic import ValidationError
 
 from xarizmi.candlestick import Candlestick
+from xarizmi.candlestick import CandlestickChart
 
 
 class TestCandlestick:
@@ -39,3 +40,34 @@ class TestCandlestick:
         # Then I should see ValidationError
         with pytest.raises(ValidationError):
             Candlestick(**data)
+
+
+class TestCandlestickChart:
+
+    def test(self) -> None:
+        data = {
+            "candles": [
+                {
+                    "low": 0.61873,
+                    "high": 0.727,
+                    "close": 0.714,
+                    "open": 0.71075,
+                },
+                {
+                    "low": 0.65219,
+                    "high": 0.75,
+                    "close": 0.70238,
+                    "open": 0.71075,
+                },
+                {
+                    "low": 0.64801,
+                    "high": 0.92,
+                    "close": 0.8404,
+                    "open": 0.70238,
+                },
+            ]
+        }
+
+        chart = CandlestickChart(**data)
+
+        assert chart.model_dump() == pytest.approx(data)

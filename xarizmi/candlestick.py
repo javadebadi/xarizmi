@@ -7,3 +7,7 @@ class Candlestick(BaseModel):
     open: NonNegativeFloat
     low: NonNegativeFloat
     high: NonNegativeFloat
+
+
+class CandlestickChart(BaseModel):
+    candles: list[Candlestick]
