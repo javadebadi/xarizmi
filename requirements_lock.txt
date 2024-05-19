@@ -35,13 +35,10 @@ pyflakes==3.2.0
 Pygments==2.18.0
 pytest==8.1.1
 readme_renderer==43.0
-requests==2.31.0
-requests-toolbelt==1.0.0
 rfc3986==2.0.0
 rich==13.7.1
 setuptools==69.5.1
 twine==5.0.0
-types-requests==2.31.0.20240406
 typing_extensions==4.11.0
 urllib3==2.2.1
 wheel==0.43.0
