@@ -24,3 +24,17 @@ class Symbol(BaseModel):
                 "fee_currency": {"name": fee_currency},
             }
         )
+
+    def to_string(self) -> str:
+        return (
+            self.base_currency.to_string()
+            + "-"
+            + self.quote_currency.to_string()
+        )
+
+    def to_dict(self) -> dict[str, str]:
+        return {
+            "base_currency": self.base_currency.to_string(),
+            "quote_currency": self.quote_currency.to_string(),
+            "fee_currency": self.fee_currency.to_string(),
+        }

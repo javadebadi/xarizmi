@@ -39,3 +39,23 @@ class TestSymbol:
                 "name": "USD",
             },
         }
+
+    def test_to_string(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+        )
+        symbol.to_string() == "BTC-USD"
+
+    def test_to_dict(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+        )
+        symbol.to_dict() == {
+            "base_currency": "BTC",
+            "quote_currency": "USD",
+            "fee_currency": "USD",
+        }
