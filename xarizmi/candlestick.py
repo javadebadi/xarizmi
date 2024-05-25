@@ -11,6 +11,7 @@ class Candlestick(BaseModel):
     high: NonNegativeFloat
     interval_type: IntervalTypeEnum | None = None
     interval: int | None = None  # interval in seconds
+    symbol: str | None = None
 
 
 class CandlestickChart(BaseModel):

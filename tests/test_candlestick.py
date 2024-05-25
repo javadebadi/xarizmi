@@ -27,6 +27,7 @@ class TestCandlestick:
                 "high": 3,
                 "interval_type": None,
                 "interval": None,
+                "symbol": None,
             }
         )
 
@@ -56,6 +57,7 @@ class TestCandlestickChart:
                     "open": 0.71075,
                     "interval_type": "1week",
                     "interval": 604800,
+                    "symbol": None,
                 },
                 {
                     "low": 0.65219,
@@ -64,6 +66,7 @@ class TestCandlestickChart:
                     "open": 0.71075,
                     "interval_type": "1week",
                     "interval": 604800,
+                    "symbol": None,
                 },
                 {
                     "low": 0.64801,
@@ -72,6 +75,7 @@ class TestCandlestickChart:
                     "open": 0.70238,
                     "interval_type": "1week",
                     "interval": 604800,
+                    "symbol": None,
                 },
             ]
         }
