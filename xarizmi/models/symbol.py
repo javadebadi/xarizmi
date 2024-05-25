@@ -15,7 +15,11 @@ class Symbol(BaseModel):
         """
         Example
         -------
-        >>> symbol = Symbol.build(base_currency="BTC", quote_currency="USD")
+        >>> symbol = Symbol.build(
+                base_currency="BTC",
+                quote_currency="USD",
+                fee_currency: "USD",
+            )
         """
         return cls(
             **{
@@ -26,6 +30,17 @@ class Symbol(BaseModel):
         )
 
     def to_string(self) -> str:
+        """
+        Example
+        -------
+        >>> symbol = Symbol.build(
+                base_currency="BTC",
+                quote_currency="USD",
+                fee_currency: "USD",
+            )
+        >>> symbol.to_string()
+        'BTC-USD'
+        """
         return (
             self.base_currency.to_string()
             + "-"
@@ -33,6 +48,21 @@ class Symbol(BaseModel):
         )
 
     def to_dict(self) -> dict[str, str]:
+        """
+        Example
+        -------
+        >>> symbol = Symbol.build(
+                base_currency="BTC",
+                quote_currency="USD",
+                fee_currency: "USD",
+            )
+        >>> symbol.to_dict()
+        {
+            "base_currency": "BTC",
+            "quote_currency": "USD",
+            "fee_currency": "USD"
+        }
+        """
         return {
             "base_currency": self.base_currency.to_string(),
             "quote_currency": self.quote_currency.to_string(),
