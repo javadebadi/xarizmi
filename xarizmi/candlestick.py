@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from pydantic import NonNegativeFloat
 
 from xarizmi.enums import IntervalTypeEnum
+from xarizmi.models.symbol import Symbol
 
 
 class Candlestick(BaseModel):
@@ -11,7 +12,7 @@ class Candlestick(BaseModel):
     high: NonNegativeFloat
     interval_type: IntervalTypeEnum | None = None
     interval: int | None = None  # interval in seconds
-    symbol: str | None = None
+    symbol: Symbol | None = None
 
 
 class CandlestickChart(BaseModel):
