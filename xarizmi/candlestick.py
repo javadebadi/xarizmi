@@ -16,6 +16,21 @@ class Candlestick(BaseModel):
     interval: int | None = None  # interval in seconds
     symbol: Symbol | None = None
 
+    @property
+    def range(self) -> float:
+        """Range = H - L"""
+        return self.high - self.low
+
+    @property
+    def intrinsic_range(self) -> float:
+        """
+        IR = (H - L) / (H + L)
+        """
+        if (self.low + self.high) == 0:
+            return 0
+        else:
+            return (self.high - self.low) / (self.high + self.low)
+
 
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
