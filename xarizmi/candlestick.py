@@ -10,6 +10,8 @@ class Candlestick(BaseModel):
     open: NonNegativeFloat
     low: NonNegativeFloat
     high: NonNegativeFloat
+    volume: NonNegativeFloat
+    amount: NonNegativeFloat | None = None
     interval_type: IntervalTypeEnum | None = None
     interval: int | None = None  # interval in seconds
     symbol: Symbol | None = None

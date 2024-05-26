@@ -12,6 +12,8 @@ class TestCandlestick:
             "open": 1,
             "low": 0.5,
             "high": 3,
+            "volume": 100,
+            "amount": 150,
         }
         candle = Candlestick(**data)
         assert candle.close == 2.5
@@ -28,6 +30,8 @@ class TestCandlestick:
                 "interval_type": None,
                 "interval": None,
                 "symbol": None,
+                "volume": 100,
+                "amount": 150,
             }
         )
 
@@ -38,6 +42,8 @@ class TestCandlestick:
             "open": 1,
             "low": 0.5,
             "high": 3,
+            "volume": 100,
+            "amount": 150,
         }
         # When Candlestick constructor is called
         # Then I should see ValidationError
@@ -58,6 +64,8 @@ class TestCandlestickChart:
                     "interval_type": "1week",
                     "interval": 604800,
                     "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
                 },
                 {
                     "low": 0.65219,
@@ -67,6 +75,8 @@ class TestCandlestickChart:
                     "interval_type": "1week",
                     "interval": 604800,
                     "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
                 },
                 {
                     "low": 0.64801,
@@ -76,6 +86,8 @@ class TestCandlestickChart:
                     "interval_type": "1week",
                     "interval": 604800,
                     "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
                 },
             ]
         }
