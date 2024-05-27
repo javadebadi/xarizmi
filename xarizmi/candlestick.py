@@ -24,12 +24,12 @@ class Candlestick(BaseModel):
     @property
     def intrinsic_range(self) -> float:
         """
-        IR = (H - L) / (H + L)
+        IR = (H - L) / (L)
         """
-        if (self.low + self.high) == 0:
+        if (self.low) == 0:
             return 0
         else:
-            return (self.high - self.low) / (self.high + self.low)
+            return (self.high - self.low) / (self.low)
 
 
 class CandlestickChart(BaseModel):

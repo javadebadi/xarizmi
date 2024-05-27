@@ -56,7 +56,7 @@ class TestCandlestick:
             "amount": 150,
         }
         candle = Candlestick(**data)
-        assert candle.intrinsic_range == 2.5 / 3.5
+        assert candle.intrinsic_range == 2.5 / 0.5
 
     def test_negative_price(self) -> None:
         # Given a data with negative price
