@@ -24,12 +24,24 @@ class Candlestick(BaseModel):
     @property
     def intrinsic_range(self) -> float:
         """
-        IR = (H - L) / (L)
+        IR = R / L
         """
         if (self.low) == 0:
             return 0
         else:
-            return (self.high - self.low) / (self.low)
+            return self.range / (self.low)
+
+    @property
+    def body(self) -> float:
+        """B = O - C"""
+        return abs(self.open - self.close)
+
+    @property
+    def intrinsic_body(self) -> float:
+        """B / R"""
+        if self.range == 0:
+            return 0
+        return self.body / self.range
 
 
 class CandlestickChart(BaseModel):

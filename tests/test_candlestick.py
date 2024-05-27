@@ -21,6 +21,7 @@ class TestCandlestick:
         assert candle.low == 0.5
         assert candle.high == 3
         assert candle.range == 2.5
+        assert candle.body == 1.5
 
         assert candle.model_dump() == pytest.approx(
             {
@@ -36,7 +37,7 @@ class TestCandlestick:
             }
         )
 
-    def test_intrinsic_rang(self) -> None:
+    def test_intrinsic_range(self) -> None:
         zero_data = {
             "close": 0,
             "open": 0,
@@ -57,6 +58,28 @@ class TestCandlestick:
         }
         candle = Candlestick(**data)
         assert candle.intrinsic_range == 2.5 / 0.5
+
+    def test_intrinsic_body(self) -> None:
+        zero_data = {
+            "close": 0,
+            "open": 0,
+            "low": 0,
+            "high": 0,
+            "volume": 0,
+            "amount": 0,
+        }
+        candle = Candlestick(**zero_data)
+        assert candle.intrinsic_range == 0
+        data = {
+            "close": 2.5,
+            "open": 1,
+            "low": 0.5,
+            "high": 3,
+            "volume": 100,
+            "amount": 150,
+        }
+        candle = Candlestick(**data)
+        assert candle.intrinsic_body == 1.5 / 2.5
 
     def test_negative_price(self) -> None:
         # Given a data with negative price
