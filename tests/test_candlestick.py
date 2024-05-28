@@ -83,6 +83,52 @@ class TestCandlestick:
         candle = Candlestick(**data)
         assert candle.intrinsic_body == 1.5 / 2.5
 
+    def test_intrinsic_upper_shadow(self) -> None:
+        zero_data = {
+            "close": 0,
+            "open": 0,
+            "low": 0,
+            "high": 0,
+            "volume": 0,
+            "amount": 0,
+        }
+        candle = Candlestick(**zero_data)
+        assert candle.intrinsic_upper_shadow == 0
+        data = {
+            "close": 2.5,
+            "open": 1,
+            "low": 0.5,
+            "high": 3,
+            "volume": 100,
+            "amount": 150,
+        }
+        candle = Candlestick(**data)
+        assert candle.upper_shadow == 0.5
+        assert candle.intrinsic_upper_shadow == 0.5 / 2.5
+
+    def test_intrinsic_lower_shadow(self) -> None:
+        zero_data = {
+            "close": 0,
+            "open": 0,
+            "low": 0,
+            "high": 0,
+            "volume": 0,
+            "amount": 0,
+        }
+        candle = Candlestick(**zero_data)
+        assert candle.intrinsic_lower_shadow == 0
+        data = {
+            "close": 2.5,
+            "open": 1,
+            "low": 0.5,
+            "high": 3,
+            "volume": 100,
+            "amount": 150,
+        }
+        candle = Candlestick(**data)
+        assert candle.lower_shadow == 0.5
+        assert candle.intrinsic_lower_shadow == 0.5 / 2.5
+
     def test_negative_price(self) -> None:
         # Given a data with negative price
         data = {

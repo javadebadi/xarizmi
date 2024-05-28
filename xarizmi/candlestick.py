@@ -57,6 +57,30 @@ class Candlestick(BaseModel):
             return 0
         return self.body / self.range
 
+    @property
+    def upper_shadow(self) -> float:
+        """US = H - MAX(C, O)"""
+        return self.high - max(self.close, self.open)
+
+    @property
+    def intrinsic_upper_shadow(self) -> float:
+        """US / R"""
+        if self.range == 0:
+            return 0
+        return self.upper_shadow / self.range
+
+    @property
+    def lower_shadow(self) -> float:
+        """LS = min(C, O) - L"""
+        return min(self.close, self.open) - self.low
+
+    @property
+    def intrinsic_lower_shadow(self) -> float:
+        """LS / R"""
+        if self.range == 0:
+            return 0
+        return self.lower_shadow / self.range
+
 
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
