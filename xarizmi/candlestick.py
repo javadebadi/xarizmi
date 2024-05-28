@@ -17,6 +17,20 @@ class Candlestick(BaseModel):
     symbol: Symbol | None = None
 
     @property
+    def is_bullish(self) -> bool:
+        if self.close >= self.open:
+            return True
+        else:
+            return False
+
+    @property
+    def is_bearish(self) -> bool:
+        if self.open >= self.close:
+            return True
+        else:
+            return False
+
+    @property
     def range(self) -> float:
         """Range = H - L"""
         return self.high - self.low

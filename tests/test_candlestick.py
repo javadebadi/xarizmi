@@ -22,6 +22,8 @@ class TestCandlestick:
         assert candle.high == 3
         assert candle.range == 2.5
         assert candle.body == 1.5
+        assert candle.is_bearish is False
+        assert candle.is_bullish is True
 
         assert candle.model_dump() == pytest.approx(
             {
