@@ -81,6 +81,12 @@ class Candlestick(BaseModel):
             return 0
         return self.lower_shadow / self.range
 
+    @property
+    def doginess(self) -> float:
+        if self.range == 0:
+            return 0
+        return 1 - self.intrinsic_body
+
 
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
