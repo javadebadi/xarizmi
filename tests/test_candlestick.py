@@ -3,6 +3,7 @@ from pydantic import ValidationError
 
 from xarizmi.candlestick import Candlestick
 from xarizmi.candlestick import CandlestickChart
+from xarizmi.config import get_config
 
 
 class TestCandlestick:
@@ -144,6 +145,30 @@ class TestCandlestick:
         # Then I should see ValidationError
         with pytest.raises(ValidationError):
             Candlestick(**data)
+
+    def test_is_dogi(self) -> None:
+        # Given a data with negative price
+        data = {
+            "close": 30,
+            "open": 20,
+            "low": 10,
+            "high": 40,
+            "volume": 100,
+            "amount": 150,
+        }
+        # When a candlestick with this data is created
+        c = Candlestick(**data)
+        # Then I should have
+        assert c.is_doji is False
+
+        # And when I change the config
+        config = get_config()
+        config.DOJINESS_THRESHOLD = 0.1
+        # When a candlestick with this data is created
+        c = Candlestick(**data)
+        # Then I should have
+        assert c.is_doji is True
+        config.reset()
 
 
 class TestCandlestickChart:

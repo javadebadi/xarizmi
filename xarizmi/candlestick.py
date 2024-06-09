@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from pydantic import NonNegativeFloat
 
+from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.symbol import Symbol
 
@@ -86,6 +87,12 @@ class Candlestick(BaseModel):
         if self.range == 0:
             return 0
         return 1 - self.intrinsic_body
+
+    @property
+    def is_doji(self) -> bool:
+        if self.range == 0:
+            return False
+        return self.doginess >= config.DOJINESS_THRESHOLD
 
 
 class CandlestickChart(BaseModel):
