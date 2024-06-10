@@ -12,11 +12,7 @@ def find_local_minima_indexes(arr: list[int | float]) -> list[int]:
     Returns:
     list of int: Indices of local minima.
     """
-    # Convert the list to a numpy array
-    arr = np.array(arr)  # type: ignore
-
-    # Find indices of local minima
-    return argrelextrema(arr, np.less)[0].tolist()  # type: ignore
+    return argrelextrema(np.array(arr), np.less_equal)[0].tolist()  # type: ignore  # noqa: E501
 
 
 def find_local_minima_values(arr: list[int | float]) -> list[int | float]:
@@ -29,10 +25,30 @@ def find_local_minima_values(arr: list[int | float]) -> list[int | float]:
     Returns:
     list of int/float: Values of local minima.
     """
-    # Get indices of local minima
-    local_minima_indices = find_local_minima_indexes(arr)
+    return [arr[i] for i in find_local_minima_indexes(arr)]
 
-    # Retrieve the corresponding values
-    local_minima_values = [arr[i] for i in local_minima_indices]
 
-    return local_minima_values
+def find_local_maxima_indexes(arr: list[int | float]) -> list[int]:
+    """
+    Finds the indices of local maxima indexes in a list using scipy.
+
+    Parameters:
+    arr (list of int/float): The list of values to find local maxima in.
+
+    Returns:
+    list of int: Indices of local maxima.
+    """
+    return argrelextrema(np.array(arr), np.greater_equal)[0].tolist()  # type: ignore  # noqa: E501
+
+
+def find_local_maxima_values(arr: list[int | float]) -> list[int | float]:
+    """
+    Finds the values of local maxima values in a list using scipy.
+
+    Parameters:
+    arr (list of int/float): The list of values to find local maxima in.
+
+    Returns:
+    list of int/float: Values of local maxima.
+    """
+    return [arr[i] for i in find_local_maxima_indexes(arr)]
