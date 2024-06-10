@@ -4,6 +4,7 @@ from pydantic import NonNegativeFloat
 from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.symbol import Symbol
+from xarizmi.utils.extremums import find_local_minima_values
 
 
 class Candlestick(BaseModel):
@@ -97,3 +98,15 @@ class Candlestick(BaseModel):
 
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
+
+    def get_local_minima_candles(
+        self, price_type: str = "low"
+    ) -> list[int | float]:
+        if price_type not in ["low", "high", "close", "open"]:
+            raise ValueError(
+                "The given value for price_type ="
+                f" '{price_type}' is not valid!"
+            )
+        return find_local_minima_values(
+            [getattr(candle, price_type) for candle in self.candles]
+        )

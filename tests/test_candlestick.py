@@ -215,3 +215,42 @@ class TestCandlestickChart:
         chart = CandlestickChart(**data)
 
         assert chart.model_dump() == pytest.approx(data)
+
+    def test_btc_usdt_monthly_data(
+        self, btc_usdt_monthly_data: list[dict[str, int | float]]
+    ) -> None:
+        # Given dataset of BTC-USDT candlestick data
+        # When CandlestickChart is called
+        c = CandlestickChart.model_validate({"candles": btc_usdt_monthly_data})
+        # Then I should have
+        assert len(c.candles) == 80
+
+    def test_get_local_minima_candles(
+        self, btc_usdt_monthly_data: list[dict[str, int | float]]
+    ) -> None:
+        # Given dataset of BTC-USDT candlestick data
+        # And a candlestick chart with this data
+        c = CandlestickChart.model_validate({"candles": btc_usdt_monthly_data})
+        # When CandlestickChart.get_local_minima_candles is called
+        values = c.get_local_minima_candles()
+        # Then I should have
+        assert len(values) == 17
+        assert values[:17] == [
+            5005.0,
+            5950.0,
+            6412.000001,
+            5736.812481,
+            5865.0,
+            3160.000001,
+            6437.0,
+            3800.0,
+            9825.0,
+            28801.8,
+            32918.7,
+            17614.7,
+            15473.6,
+            19558.1,
+            24807.5,
+            24901.7,
+            56560.0,
+        ]
