@@ -5,6 +5,7 @@ from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.symbol import Symbol
 from xarizmi.utils.extremums import find_local_minima_values
+from xarizmi.utils.numbers import round_to_significant_digit
 
 
 class Candlestick(BaseModel):
@@ -99,14 +100,17 @@ class Candlestick(BaseModel):
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
 
-    def get_local_minima_candles(
-        self, price_type: str = "low"
+    def get_local_minimas(
+        self, price_type: str = "low", only_significant_digit: bool = False
     ) -> list[int | float]:
         if price_type not in ["low", "high", "close", "open"]:
             raise ValueError(
                 "The given value for price_type ="
                 f" '{price_type}' is not valid!"
             )
-        return find_local_minima_values(
+        values = find_local_minima_values(
             [getattr(candle, price_type) for candle in self.candles]
         )
+        if only_significant_digit is True:
+            values = [round_to_significant_digit(item) for item in values]
+        return values

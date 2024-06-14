@@ -232,7 +232,7 @@ class TestCandlestickChart:
         # And a candlestick chart with this data
         c = CandlestickChart.model_validate({"candles": btc_usdt_monthly_data})
         # When CandlestickChart.get_local_minima_candles is called
-        values = c.get_local_minima_candles()
+        values = c.get_local_minimas()
         # Then I should have
         assert len(values) == 17
         assert values[:17] == [
@@ -253,4 +253,28 @@ class TestCandlestickChart:
             24807.5,
             24901.7,
             56560.0,
+        ]
+
+        # And when CandlestickChart.get_local_minima_candles is called
+        # with only_significant_digit argument set to True
+        values = c.get_local_minimas(only_significant_digit=True)
+        # Then I should have
+        assert values == [
+            5000.0,
+            6000.0,
+            6000.0,
+            6000.0,
+            6000.0,
+            3000.0,
+            6000.0,
+            4000.0,
+            10000.0,
+            30000.0,
+            30000.0,
+            20000.0,
+            20000.0,
+            20000.0,
+            20000.0,
+            20000.0,
+            60000.0,
         ]
