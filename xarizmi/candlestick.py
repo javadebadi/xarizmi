@@ -9,6 +9,29 @@ from xarizmi.utils.numbers import round_to_significant_digit
 
 
 class Candlestick(BaseModel):
+"""[Summary?]
+
+    :param [ParamName]: [ParamDescription], defaults to [DefaultParamVal]
+    :type [ParamName]: [ParamType](, optional)
+    :param close: the closing price for the corresponding time period
+    :type close: float
+    :param open: the opening price for the corresponding time period
+    :type open: float
+    :param low: the lowest traded price for the corresponding time period
+    :type low: float
+    :param high: the highest traded price for the corresponding time period
+    :type high: float
+    :param volume: [volume description?]
+    :type high: float
+    :param amount: [amount description?]
+    :type amount: float
+    :param interval_type: [interval_type description?]
+    :type interval_type: [interval_type type?]
+    :param symbol: [symbol description?]
+    :type symbol: [symbol type?]
+    :raises [ErrorType]: [ErrorDescription] -- [RE: looks like there are not error raises]
+    """
+    
     close: NonNegativeFloat
     open: NonNegativeFloat
     low: NonNegativeFloat
