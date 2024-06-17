@@ -11,6 +11,7 @@
         "DOJINESS",
         "extremums",
         "is_doji",
-        "signal"
+        "signal",
+        "sqlalchemy"
     ]
 }
