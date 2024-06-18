@@ -9,6 +9,26 @@ from xarizmi.utils.numbers import round_to_significant_digit
 
 
 class Candlestick(BaseModel):
+    """This class contains basic properties of a candlestick.
+
+    :param close: the closing price for the corresponding time period
+    :type close: float
+    :param open: the opening price for the corresponding time period
+    :type open: float
+    :param low: the lowest traded price for the corresponding time period
+    :type low: float
+    :param high: the highest traded price for the corresponding time period
+    :type high: float
+    :param volume: the amount of trading volume (width of the candlestick)
+    :type volume: float
+    :param amount: [amount description?]
+    :type amount: float
+    :param interval_type: the time period for each candlestick
+    :type interval_type: str
+    :param symbol: the type of the trade, e.g., "CAD-USD" or "BTC-USDT"
+    :type symbol: str
+    """
+    
     close: NonNegativeFloat
     open: NonNegativeFloat
     low: NonNegativeFloat
