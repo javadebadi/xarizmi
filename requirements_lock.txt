@@ -53,7 +53,7 @@ requests-toolbelt==1.0.0
 rfc3986==2.0.0
 rich==13.7.1
 scipy==1.13.1
-setuptools==69.5.1
+setuptools==71.1.0
 six==1.16.0
 SQLAlchemy==2.0.30
 TA-Lib==0.4.32
