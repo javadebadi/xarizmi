@@ -1,5 +1,5 @@
 pydantic==2.7.0
-numpy==2.0.1
-scipy==1.14.0
+numpy~=1.24
+scipy==1.13.1
 TA-Lib
-matplotlib==3.9.0
+matplotlib
