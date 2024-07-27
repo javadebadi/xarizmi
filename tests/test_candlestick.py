@@ -38,6 +38,7 @@ class TestCandlestick:
                 "symbol": None,
                 "volume": 100,
                 "amount": 150,
+                "datetime": None,
             }
         )
 
@@ -186,6 +187,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
                 {
                     "low": 0.65219,
@@ -197,6 +199,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
                 {
                     "low": 0.64801,
@@ -208,6 +211,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
             ]
         }

@@ -1,3 +1,5 @@
+from datetime import datetime as dt
+
 from pydantic import BaseModel
 from pydantic import NonNegativeFloat
 
@@ -28,7 +30,7 @@ class Candlestick(BaseModel):
     :param symbol: the type of the trade, e.g., "CAD-USD" or "BTC-USDT"
     :type symbol: str
     """
-    
+
     close: NonNegativeFloat
     open: NonNegativeFloat
     low: NonNegativeFloat
@@ -38,6 +40,7 @@ class Candlestick(BaseModel):
     interval_type: IntervalTypeEnum | None = None
     interval: int | None = None  # interval in seconds
     symbol: Symbol | None = None
+    datetime: dt | None = None
 
     @property
     def is_bullish(self) -> bool:
