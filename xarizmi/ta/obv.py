@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from talib import abstract
 
 from xarizmi.candlestick import CandlestickChart
+from xarizmi.utils.plot.timeseries.lineplot import lineplot_timeseries
 
 
 class OBVIndicator:
@@ -37,24 +37,16 @@ class OBVIndicator:
     ) -> None:
         if self.indicator_data is None:
             raise RuntimeError("No data to plot")
-        plt.figure(figsize=fig_size)
-        dates = [candle.datetime for candle in self.candlestick_chart.candles]
-        if any(value is None for value in dates):
-            plt.plot(self.indicator_data, label="OBV", color=color)
-        else:
-            plt.plot(
-                dates,  # type: ignore
-                self.indicator_data,
-                label="OBV",
-                color=color,
-            )
-        plt.title("On-Balance Volume (OBV)")
-        plt.xlabel("Time")
-        plt.ylabel("OBV")
-        plt.legend()
-        plt.grid(True)
-
-        if save_path:
-            plt.savefig(save_path)
-        else:
-            plt.show()
+        lineplot_timeseries(
+            data=self.indicator_data,
+            dates_data=[
+                candle.datetime for candle in self.candlestick_chart.candles
+            ],
+            fig_size=fig_size,
+            save_path=save_path,
+            color=color,
+            label="OBV",
+            xlabel="Time",
+            ylabel="OBV",
+            title="On-Balance Volume (OBV)",
+        )
