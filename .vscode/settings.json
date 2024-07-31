@@ -12,6 +12,7 @@
         "extremums",
         "is_doji",
         "lineplot",
+        "minimas",
         "signal"
     ]
 }
