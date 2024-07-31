@@ -1,8 +1,6 @@
 """A client to download Yahoo Finance data
 """
 
-from datetime import datetime
-
 import pandas as pd
 import yfinance as yf
 
@@ -37,7 +35,7 @@ class YahooFinanceDailyDataClient:
 
     def transform(
         self, data_list: list[dict[str, str | float | pd.Timestamp]]
-    ) -> list[dict[str, str | float | datetime | dict[str, dict[str, str]]]]:
+    ) -> CandlestickChart:
         candles_data = []
         for single_candle_data in data_list:
             temp = {}
@@ -54,22 +52,30 @@ class YahooFinanceDailyDataClient:
                 "fee_currency": {"name": "CAD"},
             }  # type: ignore
             candles_data.append(temp)
-        return candles_data  # type: ignore
+        return CandlestickChart.model_validate({"candles": candles_data})
 
     def save_file(
         self,
-        candles_data: list[
-            dict[str, str | float | datetime | dict[str, dict[str, str]]]
-        ],
+        candlestick_chart: CandlestickChart,
         filepath: str,
         indent: int = 4,
     ) -> None:
-        candles = CandlestickChart.model_validate({"candles": candles_data})
         with open(filepath, "w") as f:
-            f.write(candles.model_dump_json(indent=indent))
+            f.write(candlestick_chart.model_dump_json(indent=indent))
 
-    def etl(self, filepath: str) -> None:
+    def etl(self, filepath: str) -> CandlestickChart:
         data_list = self.extract()
         if data_list:
-            candles_data = self.transform(data_list=data_list)
-            self.save_file(candles_data=candles_data, filepath=filepath)
+            candlestick_chart = self.transform(data_list=data_list)
+            self.save_file(
+                candlestick_chart=candlestick_chart, filepath=filepath
+            )
+            return candlestick_chart
+        else:
+            return CandlestickChart(candles=[])
+
+    @staticmethod
+    def download_full_data(symbol: str, filepath: str) -> CandlestickChart:
+        client = YahooFinanceDailyDataClient(symbol=symbol)
+        candlestick_chart = client.etl(filepath=filepath)
+        return candlestick_chart
