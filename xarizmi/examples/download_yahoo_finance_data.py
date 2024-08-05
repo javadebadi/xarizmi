@@ -15,6 +15,7 @@ SYMBOLS_LIST: list[str] = [
     "OTEX.TO",
     "TRP.TO",
     "TFII.TO",
+    "LSPD.TO",
 ]
 
 

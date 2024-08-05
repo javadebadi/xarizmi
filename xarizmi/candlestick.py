@@ -123,6 +123,18 @@ class Candlestick(BaseModel):
 class CandlestickChart(BaseModel):
     candles: list[Candlestick]
 
+    def filter_keep_last_n(
+        self, keep_last_n: int | None = None, inplace: bool = False
+    ) -> "CandlestickChart":
+        if keep_last_n:
+            candles = self.candles[-keep_last_n:]
+            if inplace is True:
+                self.candles = candles
+                return self
+            else:
+                return CandlestickChart(candles=candles)
+        return self
+
     def get_local_minimas(
         self, price_type: str = "low", only_significant_digit: bool = False
     ) -> list[int | float]:
