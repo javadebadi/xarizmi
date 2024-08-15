@@ -160,3 +160,13 @@ class CandlestickChart(BaseModel):
         if only_significant_digit is True:
             values = [round_to_significant_digit(item) for item in values]
         return values
+
+    def get_support_indexes(self):
+        return find_local_minima_indexes(
+            [candle.low for candle in self.candles]
+        )
+
+    def get_l2_support_indexes(self):
+        return find_local_minima_of_minima_indexes(
+            [candle.low for candle in self.candles]
+        )
