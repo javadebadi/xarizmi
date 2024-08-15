@@ -220,6 +220,56 @@ class TestCandlestickChart:
 
         assert chart.model_dump() == pytest.approx(data)
 
+    def test_to_df(self) -> None:
+        data = {
+            "candles": [
+                {
+                    "low": 0.61873,
+                    "high": 0.727,
+                    "close": 0.714,
+                    "open": 0.71075,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+                {
+                    "low": 0.65219,
+                    "high": 0.75,
+                    "close": 0.70238,
+                    "open": 0.71075,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+                {
+                    "low": 0.64801,
+                    "high": 0.92,
+                    "close": 0.8404,
+                    "open": 0.70238,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+            ]
+        }
+
+        chart = CandlestickChart(**data)
+
+        df = chart.to_df()
+        assert df["open"].tolist() == [0.71075, 0.71075, 0.70238]
+        assert df["close"].tolist() == [0.714, 0.70238, 0.8404]
+        assert df["low"].tolist() == [0.61873, 0.65219, 0.64801]
+        assert df["high"].tolist() == [0.727, 0.75, 0.92]
+
     def test_btc_usdt_monthly_data(
         self, btc_usdt_monthly_data: list[dict[str, int | float]]
     ) -> None:

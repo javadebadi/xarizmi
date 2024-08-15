@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 
+import pandas as pd
 from pydantic import BaseModel
 from pydantic import NonNegativeFloat
 
@@ -134,6 +135,16 @@ class CandlestickChart(BaseModel):
             else:
                 return CandlestickChart(candles=candles)
         return self
+
+    def to_df(self) -> pd.DataFrame:
+        return pd.DataFrame(
+            data={
+                "open": [candle.open for candle in self.candles],
+                "close": [candle.close for candle in self.candles],
+                "low": [candle.low for candle in self.candles],
+                "high": [candle.high for candle in self.candles],
+            }
+        )
 
     def get_local_minimas(
         self, price_type: str = "low", only_significant_digit: bool = False
