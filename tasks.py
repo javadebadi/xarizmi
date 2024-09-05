@@ -104,6 +104,12 @@ def tag(ctx: Context) -> None:
     ctx.run("git push --tags")
 
 
+@task
+def coverage(ctx: Context) -> None:
+    ctx.run("pytest --cov=xarizmi tests")
+    ctx.run("coverage html")
+
+
 ns = Collection()
 ns.add_task(autoformat)
 ns.add_task(lint)
@@ -113,3 +119,4 @@ ns.add_task(deploy)
 ns.add_task(freeze)
 ns.add_task(install)
 ns.add_task(tag)
+ns.add_task(coverage)
