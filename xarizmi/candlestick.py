@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 
+import mplfinance as mpf
 import numpy as np
 import pandas as pd
 from pydantic import BaseModel
@@ -156,8 +157,7 @@ class CandlestickChart(BaseModel):
         df.set_index("datetime", inplace=True)
         return df
 
-    def plot(self, figsize=(8, 4)) -> None:
-        import mplfinance as mpf
+    def plot(self, figsize: tuple[int | float, int | float] = (8, 4)) -> None:
 
         df = self.to_df()
 
@@ -208,22 +208,22 @@ class CandlestickChart(BaseModel):
             values = [round_to_significant_digit(item) for item in values]
         return values
 
-    def get_support_indexes(self):
+    def get_support_indexes(self) -> list[int]:
         return find_local_minima_indexes(
             [candle.low for candle in self.candles]
         )
 
-    def get_l2_support_indexes(self):
+    def get_l2_support_indexes(self) -> list[int]:
         return find_local_minima_of_minima_indexes(
             [candle.low for candle in self.candles]
         )
 
-    def get_resistance_indexes(self):
+    def get_resistance_indexes(self) -> list[int]:
         return find_local_maxima_indexes(
             [candle.high for candle in self.candles]
         )
 
-    def get_l2_resistance_indexes(self):
+    def get_l2_resistance_indexes(self) -> list[int]:
         return find_local_maxima_of_maxima_indexes(
             [candle.high for candle in self.candles]
         )
