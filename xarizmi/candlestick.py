@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 
+import numpy as np
 import pandas as pd
 from pydantic import BaseModel
 from pydantic import NonNegativeFloat
@@ -7,6 +8,10 @@ from pydantic import NonNegativeFloat
 from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.symbol import Symbol
+from xarizmi.utils.extremums import find_local_maxima_indexes
+from xarizmi.utils.extremums import find_local_maxima_of_maxima_indexes
+from xarizmi.utils.extremums import find_local_minima_indexes
+from xarizmi.utils.extremums import find_local_minima_of_minima_indexes
 from xarizmi.utils.extremums import find_local_minima_values
 from xarizmi.utils.numbers import round_to_significant_digit
 
@@ -137,13 +142,55 @@ class CandlestickChart(BaseModel):
         return self
 
     def to_df(self) -> pd.DataFrame:
-        return pd.DataFrame(
+        df = pd.DataFrame(
             data={
                 "open": [candle.open for candle in self.candles],
                 "close": [candle.close for candle in self.candles],
                 "low": [candle.low for candle in self.candles],
                 "high": [candle.high for candle in self.candles],
+                "datetime": [candle.datetime for candle in self.candles],
+                "volume": [candle.volume for candle in self.candles],
+                "amount": [candle.amount for candle in self.candles],
             }
+        )
+        df.set_index("datetime", inplace=True)
+        return df
+
+    def plot(self, figsize=(8, 4)) -> None:
+        import mplfinance as mpf
+
+        df = self.to_df()
+
+        mask = np.isin(df.index, df.index[self.get_l2_support_indexes()])
+        masked_df = df.copy()
+        masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
+        apd1 = mpf.make_addplot(
+            masked_df["low"],
+            type="scatter",
+            color="darkgreen",
+            marker="s",
+            markersize=100,
+            alpha=0.5,
+        )
+        mask = np.isin(df.index, df.index[self.get_l2_resistance_indexes()])
+        masked_df = df.copy()
+        masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
+        apd2 = mpf.make_addplot(
+            masked_df["high"],
+            type="scatter",
+            color="darkred",
+            marker="s",
+            markersize=100,
+            alpha=0.5,
+        )
+        mpf.plot(
+            df,
+            figratio=figsize,
+            type="candle",
+            volume=True,
+            # style="yahoo",
+            style="classic",
+            addplot=[apd1, apd2],
         )
 
     def get_local_minimas(
@@ -169,4 +216,14 @@ class CandlestickChart(BaseModel):
     def get_l2_support_indexes(self):
         return find_local_minima_of_minima_indexes(
             [candle.low for candle in self.candles]
+        )
+
+    def get_resistance_indexes(self):
+        return find_local_maxima_indexes(
+            [candle.high for candle in self.candles]
+        )
+
+    def get_l2_resistance_indexes(self):
+        return find_local_maxima_of_maxima_indexes(
+            [candle.high for candle in self.candles]
         )
