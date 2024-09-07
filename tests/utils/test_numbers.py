@@ -21,6 +21,7 @@ from xarizmi.utils.numbers import round_to_significant_digit
         (0.49, 0.5),
         (0.41, 0.4),
         (0.99, 1),
+        (0, 0),
     ],
 )
 def test_round_to_significant_digit(
