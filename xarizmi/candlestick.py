@@ -198,8 +198,7 @@ class CandlestickChart(BaseModel):
     ) -> list[int | float]:
         if price_type not in ["low", "high", "close", "open"]:
             raise ValueError(
-                "The given value for price_type ="
-                f" '{price_type}' is not valid!"
+                f"The given value for {price_type=}" f" is not valid!"
             )
         values = find_local_minima_values(
             [getattr(candle, price_type) for candle in self.candles]
