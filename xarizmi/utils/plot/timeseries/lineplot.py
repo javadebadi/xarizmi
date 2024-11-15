@@ -34,7 +34,7 @@ class TimeSeriesLinePlot:
             self.ax.plot(data, label=self.label, color=self.color)
         else:
             self.ax.plot(
-                dates_data,  # type: ignore
+                dates_data,
                 data,
                 label=self.label,
                 color=self.color,
@@ -57,7 +57,7 @@ class TimeSeriesLinePlot:
         label: str | None = None,
     ) -> tuple[Figure, Axes]:
         self.ax.scatter(
-            dates_data,  # type: ignore
+            dates_data,
             data,
             color=color,
             marker=marker,

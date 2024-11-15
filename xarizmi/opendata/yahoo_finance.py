@@ -50,7 +50,7 @@ class YahooFinanceDailyDataClient:
                 "base_currency": {"name": self.symbol},
                 "quote_currency": {"name": "CAD"},
                 "fee_currency": {"name": "CAD"},
-            }  # type: ignore
+            }
             candles_data.append(temp)
         return CandlestickChart.model_validate({"candles": candles_data})
 
