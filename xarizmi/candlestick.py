@@ -161,10 +161,21 @@ class CandlestickChart(BaseModel):
 
         df = self.to_df()
 
-        mask = np.isin(df.index, df.index[self.get_l2_support_indexes()])
+        mask = np.isin(df.index, df.index[self.get_support_indexes()])
         masked_df = df.copy()
         masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
         apd1 = mpf.make_addplot(
+            masked_df["low"],
+            type="scatter",
+            color="darkgreen",
+            marker="h",
+            markersize=20,
+            alpha=0.50,
+        )
+        mask = np.isin(df.index, df.index[self.get_l2_support_indexes()])
+        masked_df = df.copy()
+        masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
+        apd3 = mpf.make_addplot(
             masked_df["low"],
             type="scatter",
             color="darkgreen",
@@ -172,10 +183,21 @@ class CandlestickChart(BaseModel):
             markersize=100,
             alpha=0.5,
         )
-        mask = np.isin(df.index, df.index[self.get_l2_resistance_indexes()])
+        mask = np.isin(df.index, df.index[self.get_resistance_indexes()])
         masked_df = df.copy()
         masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
         apd2 = mpf.make_addplot(
+            masked_df["high"],
+            type="scatter",
+            color="darkred",
+            marker="h",
+            markersize=20,
+            alpha=0.50,
+        )
+        mask = np.isin(df.index, df.index[self.get_l2_resistance_indexes()])
+        masked_df = df.copy()
+        masked_df[~mask] = np.nan  # Replace rows not in index_list with NaN
+        apd4 = mpf.make_addplot(
             masked_df["high"],
             type="scatter",
             color="darkred",
@@ -190,7 +212,7 @@ class CandlestickChart(BaseModel):
             volume=True,
             # style="yahoo",
             style="classic",
-            addplot=[apd1, apd2],
+            addplot=[apd1, apd2, apd3, apd4],
         )
 
     def get_local_minimas(

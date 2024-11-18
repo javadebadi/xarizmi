@@ -39,12 +39,15 @@ class YahooFinanceDailyDataClient:
         candles_data = []
         for single_candle_data in data_list:
             temp = {}
-            temp["open"] = single_candle_data["Open"]
-            temp["high"] = single_candle_data["High"]
-            temp["low"] = single_candle_data["Low"]
-            temp["close"] = single_candle_data["Close"]
-            temp["volume"] = single_candle_data["Volume"]
-            temp["datetime"] = single_candle_data["Date"].to_pydatetime()  # type: ignore  # noqa:E501
+            data = single_candle_data.copy()
+            for key, value in single_candle_data.items():
+                data[key[0]] = value
+            temp["open"] = data["Open"]
+            temp["high"] = data["High"]
+            temp["low"] = data["Low"]
+            temp["close"] = data["Close"]
+            temp["volume"] = data["Volume"]
+            temp["datetime"] = data["Date"].to_pydatetime()  # type: ignore  # noqa:E501
             temp["interval_type"] = "1day"
             temp["symbol"] = {
                 "base_currency": {"name": self.symbol},
