@@ -48,7 +48,7 @@ class IntervalTypeEnum(StrEnum):
         ]:
             if interval_type.name.startswith(prefix):
                 unit = prefix.replace("_", "")
-                value = int(interval_type.split(prefix)[-1])
+                value = int(interval_type.name.split(prefix)[-1])
                 break
         if unit is not None and value is not None:
             return value * TimeUnitsSeconds[unit].value
