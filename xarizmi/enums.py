@@ -56,3 +56,17 @@ class IntervalTypeEnum(StrEnum):
             raise NotImplementedError(
                 f"Not implemented for interval_type = '{interval_type}'"
             )
+
+    @staticmethod
+    def get_interval_in_miliseconds(
+        interval_type: "IntervalTypeEnum",
+    ) -> None | int:
+        return 1000 * IntervalTypeEnum.get_interval_in_seconds(interval_type)
+
+    @staticmethod
+    def get_interval_in_nanoseconds(
+        interval_type: "IntervalTypeEnum",
+    ) -> None | int:
+        return 1000000000 * IntervalTypeEnum.get_interval_in_seconds(
+            interval_type
+        )
