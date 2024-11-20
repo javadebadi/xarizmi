@@ -38,6 +38,7 @@ class TestCandlestick:
                 "symbol": None,
                 "volume": 100,
                 "amount": 150,
+                "datetime": None,
             }
         )
 
@@ -170,6 +171,36 @@ class TestCandlestick:
         assert c.is_doji is True
         config.reset()
 
+    def test_is_dogi_when_range_is_zero(self) -> None:
+        # Given a data with high and low are in same price
+        data = {
+            "close": 30,
+            "open": 30,
+            "low": 30,
+            "high": 30,
+            "volume": 100,
+            "amount": 150,
+        }
+        # When a candlestick with this data is created
+        c = Candlestick(**data)
+        # Then I should have
+        assert c.is_doji is False
+
+    def test_is_doginess_when_range_is_zero(self) -> None:
+        # Given a data with high and low are in same price
+        data = {
+            "close": 30,
+            "open": 30,
+            "low": 30,
+            "high": 30,
+            "volume": 100,
+            "amount": 150,
+        }
+        # When a candlestick with this data is created
+        c = Candlestick(**data)
+        # Then I should have
+        assert c.doginess == 0
+
 
 class TestCandlestickChart:
 
@@ -186,6 +217,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
                 {
                     "low": 0.65219,
@@ -197,6 +229,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
                 {
                     "low": 0.64801,
@@ -208,6 +241,7 @@ class TestCandlestickChart:
                     "symbol": None,
                     "volume": 100,
                     "amount": 150,
+                    "datetime": None,
                 },
             ]
         }
@@ -215,6 +249,56 @@ class TestCandlestickChart:
         chart = CandlestickChart(**data)
 
         assert chart.model_dump() == pytest.approx(data)
+
+    def test_to_df(self) -> None:
+        data = {
+            "candles": [
+                {
+                    "low": 0.61873,
+                    "high": 0.727,
+                    "close": 0.714,
+                    "open": 0.71075,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+                {
+                    "low": 0.65219,
+                    "high": 0.75,
+                    "close": 0.70238,
+                    "open": 0.71075,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+                {
+                    "low": 0.64801,
+                    "high": 0.92,
+                    "close": 0.8404,
+                    "open": 0.70238,
+                    "interval_type": "1week",
+                    "interval": 604800,
+                    "symbol": None,
+                    "volume": 100,
+                    "amount": 150,
+                    "datetime": None,
+                },
+            ]
+        }
+
+        chart = CandlestickChart(**data)
+
+        df = chart.to_df()
+        assert df["open"].tolist() == [0.71075, 0.71075, 0.70238]
+        assert df["close"].tolist() == [0.714, 0.70238, 0.8404]
+        assert df["low"].tolist() == [0.61873, 0.65219, 0.64801]
+        assert df["high"].tolist() == [0.727, 0.75, 0.92]
 
     def test_btc_usdt_monthly_data(
         self, btc_usdt_monthly_data: list[dict[str, int | float]]
@@ -278,3 +362,15 @@ class TestCandlestickChart:
             20000.0,
             60000.0,
         ]
+
+    def test_get_local_minima_candles_raise_error_for_invalid_argument(
+        self, btc_usdt_monthly_data: list[dict[str, int | float]]
+    ) -> None:
+        # Given dataset of BTC-USDT candlestick data
+        # And a candlestick chart with this data
+        c = CandlestickChart.model_validate({"candles": btc_usdt_monthly_data})
+        # When CandlestickChart.get_local_minima_candles is called with
+        # wrong argument
+        # Then I should have
+        with pytest.raises(ValueError):
+            c.get_local_minimas(price_type="DOES_NOT_EXIST")

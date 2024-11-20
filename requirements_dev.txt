@@ -8,4 +8,8 @@ invoke==2.2.0
 black==24.4.0
 flake8==7.0.0
 blacken-docs==1.16.0
-setuptools==69.5.1
+setuptools==71.1.0
+pandas-stubs
+coverage
+pytest-cov
+pytest-sugar

@@ -13,5 +13,9 @@
         "is_doji",
         "signal",
         "sqlalchemy"
+        "lineplot",
+        "minimas",
+        "xlabel",
+        "ylabel"
     ]
 }

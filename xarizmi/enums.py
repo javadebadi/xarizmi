@@ -28,6 +28,8 @@ class IntervalTypeEnum(StrEnum):
     HOUR_8 = "8hour"
     HOUR_12 = "12hour"
     DAY_1 = "1day"
+    DAY_7 = "7day"
+    DAY_14 = "14day"
     WEEK_1 = "1week"
     MONTH_1 = "1month"
 
