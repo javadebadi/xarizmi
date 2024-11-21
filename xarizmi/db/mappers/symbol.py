@@ -6,15 +6,15 @@ from xarizmi.db.client import session_scope
 from xarizmi.db.mappers.base import PydanticModelDbMapper
 from xarizmi.db.models.symbol import Symbol as SqlAlchemySymbol
 from xarizmi.models.currency import Currency
-from xarizmi.models.symbol import Symbol as PydanticSymbol
 from xarizmi.models.exchange import Exchange as PydanticExchange
+from xarizmi.models.symbol import Symbol as PydanticSymbol
 
 
 class SYMBOL_FLAT_TYPED_DICT(TypedDict):
     base_currency: str
     quote_currency: str
     fee_currency: str
-    exchange_name: str
+    exchange: str
 
 
 class SymbolDbMapper(PydanticModelDbMapper):
@@ -40,7 +40,7 @@ class SymbolDbMapper(PydanticModelDbMapper):
             base_currency=Currency(name=str(obj.base_currency)),
             quote_currency=Currency(name=str(obj.quote_currency)),
             fee_currency=Currency(name=str(obj.fee_currency)),
-            exchange_name=PydanticExchange(name=str(obj.exchange_name))
+            exchange_name=PydanticExchange(name=str(obj.exchange_name)),
         )
 
     def _to_sqlalchemy(self, obj: PydanticSymbol) -> SqlAlchemySymbol:  # type: ignore  # noqa: E501
@@ -48,7 +48,7 @@ class SymbolDbMapper(PydanticModelDbMapper):
             base_currency=obj.base_currency.name,
             quote_currency=obj.quote_currency.name,
             fee_currency=obj.fee_currency.name,
-            exchange_name=obj.exchange.name,
+            exchange_name=obj.exchange.name,  # type: ignore
         )
 
     def _does_exist_in_session(self, session: Session) -> bool:
@@ -74,6 +74,7 @@ class SymbolDbMapper(PydanticModelDbMapper):
             .filter_by(
                 base_currency=self.sqlalchemy_obj.base_currency,
                 quote_currency=self.sqlalchemy_obj.quote_currency,
+                exchange_name=self.sqlalchemy_obj.exchange_name,
             )
             .first()
         )

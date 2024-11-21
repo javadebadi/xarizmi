@@ -22,7 +22,7 @@ class Symbol(Base):  # type: ignore
         String, Computed("base_currency || '-' || quote_currency"), unique=True
     )
     exchange_name: Mapped[str] = mapped_column(
-        String, ForeignKey(Exchange.name), nullable=True
+        String, ForeignKey(Exchange.name), nullable=False
     )
 
     # Establish a many-to-one relationship
