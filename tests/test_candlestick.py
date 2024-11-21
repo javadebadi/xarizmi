@@ -39,6 +39,7 @@ class TestCandlestick:
                 "volume": 100,
                 "amount": 150,
                 "datetime": None,
+                "exchange": None,
             }
         )
 
@@ -218,6 +219,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
                 {
                     "low": 0.65219,
@@ -230,6 +232,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
                 {
                     "low": 0.64801,
@@ -242,6 +245,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
             ]
         }

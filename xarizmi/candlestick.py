@@ -8,6 +8,7 @@ from pydantic import NonNegativeFloat
 
 from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
+from xarizmi.models.exchange import Exchange
 from xarizmi.models.symbol import Symbol
 from xarizmi.utils.extremums import find_local_maxima_indexes
 from xarizmi.utils.extremums import find_local_maxima_of_maxima_indexes
@@ -48,6 +49,7 @@ class Candlestick(BaseModel):
     interval: int | None = None  # interval in seconds
     symbol: Symbol | None = None
     datetime: dt | None = None
+    exchange: Exchange | None = None
 
     @property
     def is_bullish(self) -> bool:
