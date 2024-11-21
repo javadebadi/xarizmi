@@ -36,7 +36,7 @@ class IntervalTypeEnum(StrEnum):
     @staticmethod
     def get_interval_in_seconds(
         interval_type: "IntervalTypeEnum",
-    ) -> None | int:
+    ) -> int:
         unit: str | None = None
         value: int | None = None
         for prefix in [
@@ -48,7 +48,7 @@ class IntervalTypeEnum(StrEnum):
         ]:
             if interval_type.name.startswith(prefix):
                 unit = prefix.replace("_", "")
-                value = int(interval_type.split(prefix)[-1])
+                value = int(interval_type.name.split(prefix)[-1])
                 break
         if unit is not None and value is not None:
             return value * TimeUnitsSeconds[unit].value
@@ -56,3 +56,17 @@ class IntervalTypeEnum(StrEnum):
             raise NotImplementedError(
                 f"Not implemented for interval_type = '{interval_type}'"
             )
+
+    @staticmethod
+    def get_interval_in_miliseconds(
+        interval_type: "IntervalTypeEnum",
+    ) -> int:
+        return 1000 * IntervalTypeEnum.get_interval_in_seconds(interval_type)
+
+    @staticmethod
+    def get_interval_in_nanoseconds(
+        interval_type: "IntervalTypeEnum",
+    ) -> int:
+        return 1000000000 * IntervalTypeEnum.get_interval_in_seconds(
+            interval_type
+        )

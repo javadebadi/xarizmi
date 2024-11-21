@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from typing import Any
 
 import mplfinance as mpf
 import numpy as np
@@ -8,6 +9,7 @@ from pydantic import NonNegativeFloat
 
 from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
+from xarizmi.models.exchange import Exchange
 from xarizmi.models.symbol import Symbol
 from xarizmi.utils.extremums import find_local_maxima_indexes
 from xarizmi.utils.extremums import find_local_maxima_of_maxima_indexes
@@ -48,6 +50,7 @@ class Candlestick(BaseModel):
     interval: int | None = None  # interval in seconds
     symbol: Symbol | None = None
     datetime: dt | None = None
+    exchange: Exchange | None = None
 
     @property
     def is_bullish(self) -> bool:
@@ -125,6 +128,21 @@ class Candlestick(BaseModel):
         if self.range == 0:
             return False
         return self.doginess >= config.DOJINESS_THRESHOLD
+
+    def flatten(self) -> dict[str, Any]:
+        if self.symbol is None:
+            raise NotImplementedError(
+                "flatten method is not implemented for instances with "
+                "None value for self.symbol"
+            )
+        data = self.model_dump()
+        del data["symbol"]
+        data["base_currency"] = self.symbol.base_currency.name
+        data["quote_currency"] = self.symbol.quote_currency.name
+        data["exchange"] = (
+            self.exchange.name if (self.exchange is not None) else None
+        )
+        return data
 
 
 class CandlestickChart(BaseModel):

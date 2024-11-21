@@ -39,6 +39,42 @@ class TestCandlestick:
                 "volume": 100,
                 "amount": 150,
                 "datetime": None,
+                "exchange": None,
+            }
+        )
+
+    def test_flatten(self) -> None:
+        data = {
+            "close": 2.5,
+            "open": 1,
+            "low": 0.5,
+            "high": 3,
+            "volume": 100,
+            "amount": 150,
+            "exchange": {"name": "BINANCE"},
+            "symbol": {
+                "base_currency": {"name": "BTC"},
+                "quote_currency": {"name": "USDT"},
+                "fee_currency": {"name": "USDT"},
+                "exchange": {"name": "BINANCE"},
+            },
+        }
+        candle = Candlestick.model_validate(data)
+
+        assert candle.flatten() == pytest.approx(
+            {
+                "close": 2.5,
+                "open": 1,
+                "low": 0.5,
+                "high": 3,
+                "interval_type": None,
+                "interval": None,
+                "volume": 100,
+                "amount": 150,
+                "datetime": None,
+                "exchange": "BINANCE",
+                "base_currency": "BTC",
+                "quote_currency": "USDT",
             }
         )
 
@@ -218,6 +254,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
                 {
                     "low": 0.65219,
@@ -230,6 +267,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
                 {
                     "low": 0.64801,
@@ -242,6 +280,7 @@ class TestCandlestickChart:
                     "volume": 100,
                     "amount": 150,
                     "datetime": None,
+                    "exchange": None,
                 },
             ]
         }
