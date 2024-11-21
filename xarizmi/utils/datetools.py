@@ -22,7 +22,7 @@ def get_current_time_miliseconds() -> int:
     -------
     int
     """
-    return int(time.time_ns() // 1000)
+    return int(time.time_ns() // 1000000)
 
 
 def get_current_time_nanoseconds() -> int:
