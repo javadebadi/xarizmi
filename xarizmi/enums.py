@@ -60,13 +60,13 @@ class IntervalTypeEnum(StrEnum):
     @staticmethod
     def get_interval_in_miliseconds(
         interval_type: "IntervalTypeEnum",
-    ) -> None | int:
+    ) -> int:
         return 1000 * IntervalTypeEnum.get_interval_in_seconds(interval_type)
 
     @staticmethod
     def get_interval_in_nanoseconds(
         interval_type: "IntervalTypeEnum",
-    ) -> None | int:
+    ) -> int:
         return 1000000000 * IntervalTypeEnum.get_interval_in_seconds(
             interval_type
         )

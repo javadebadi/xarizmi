@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from typing import Any
 
 import mplfinance as mpf
 import numpy as np
@@ -127,6 +128,21 @@ class Candlestick(BaseModel):
         if self.range == 0:
             return False
         return self.doginess >= config.DOJINESS_THRESHOLD
+
+    def flatten(self) -> dict[str, Any]:
+        if self.symbol is None:
+            raise NotImplementedError(
+                "flatten method is not implemented for instances with "
+                "None value for self.symbol"
+            )
+        data = self.model_dump()
+        del data["symbol"]
+        data["base_currency"] = self.symbol.base_currency.name
+        data["quote_currency"] = self.symbol.quote_currency.name
+        data["exchange"] = (
+            self.exchange.name if (self.exchange is not None) else None
+        )
+        return data
 
 
 class CandlestickChart(BaseModel):

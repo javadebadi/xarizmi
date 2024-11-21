@@ -68,7 +68,7 @@ def lint(ctx: Context) -> None:
 
 @task
 def test(ctx: Context) -> None:
-    ctx.run("pytest tests")
+    ctx.run("pytest -vv tests")
 
 
 @task

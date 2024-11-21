@@ -43,6 +43,41 @@ class TestCandlestick:
             }
         )
 
+    def test_flatten(self) -> None:
+        data = {
+            "close": 2.5,
+            "open": 1,
+            "low": 0.5,
+            "high": 3,
+            "volume": 100,
+            "amount": 150,
+            "exchange": {"name": "BINANCE"},
+            "symbol": {
+                "base_currency": {"name": "BTC"},
+                "quote_currency": {"name": "USDT"},
+                "fee_currency": {"name": "USDT"},
+                "exchange": {"name": "BINANCE"},
+            },
+        }
+        candle = Candlestick.model_validate(data)
+
+        assert candle.flatten() == pytest.approx(
+            {
+                "close": 2.5,
+                "open": 1,
+                "low": 0.5,
+                "high": 3,
+                "interval_type": None,
+                "interval": None,
+                "volume": 100,
+                "amount": 150,
+                "datetime": None,
+                "exchange": "BINANCE",
+                "base_currency": "BTC",
+                "quote_currency": "USDT",
+            }
+        )
+
     def test_intrinsic_range(self) -> None:
         zero_data = {
             "close": 0,
