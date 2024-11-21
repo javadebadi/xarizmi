@@ -20,6 +20,7 @@ class TestSymbol:
             "quote_currency": {
                 "name": "USD",
             },
+            "exchange": None,
         }
 
     def test_build(self) -> None:
@@ -27,6 +28,7 @@ class TestSymbol:
             base_currency="BTC",
             quote_currency="USD",
             fee_currency="USD",
+            exchange="BINANCE",
         )
         assert symbol.model_dump() == {
             "base_currency": {
@@ -38,6 +40,7 @@ class TestSymbol:
             "quote_currency": {
                 "name": "USD",
             },
+            "exchange": {"name": "BINANCE"},
         }
 
     def test_to_string(self) -> None:
@@ -45,17 +48,34 @@ class TestSymbol:
             base_currency="BTC",
             quote_currency="USD",
             fee_currency="USD",
+            exchange=None,
         )
-        symbol.to_string() == "BTC-USD"
+        assert symbol.to_string() == "BTC-USD"
 
     def test_to_dict(self) -> None:
         symbol = Symbol.build(
             base_currency="BTC",
             quote_currency="USD",
             fee_currency="USD",
+            exchange=None,
         )
-        symbol.to_dict() == {
+        assert symbol.to_dict() == {
             "base_currency": "BTC",
             "quote_currency": "USD",
             "fee_currency": "USD",
+            "exchange": None,
+        }
+
+    def test_to_dict_with_exchange(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert symbol.to_dict() == {
+            "base_currency": "BTC",
+            "quote_currency": "USD",
+            "fee_currency": "USD",
+            "exchange": "BINANCE",
         }

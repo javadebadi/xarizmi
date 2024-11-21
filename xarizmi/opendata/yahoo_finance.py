@@ -1,6 +1,8 @@
 """A client to download Yahoo Finance data
 """
 
+from typing import Any
+
 import pandas as pd
 import yfinance as yf
 
@@ -19,7 +21,9 @@ class YahooFinanceDailyDataClient:
         self.start_date = start_date
         self.end_date = end_date
 
-    def extract(self) -> list[dict[str, str | float | pd.Timestamp]] | None:
+    def extract(
+        self,
+    ) -> list[dict[str, str | float | pd.Timestamp | dict[str, Any]]] | None:
         stock_data: pd.DataFrame = yf.download(
             self.symbol, start=self.start_date, end=self.end_date
         )
@@ -38,7 +42,7 @@ class YahooFinanceDailyDataClient:
     ) -> CandlestickChart:
         candles_data = []
         for single_candle_data in data_list:
-            temp = {}
+            temp: dict[str, Any] = {}
             data = single_candle_data.copy()
             for key, value in single_candle_data.items():
                 data[key[0]] = value
@@ -69,7 +73,7 @@ class YahooFinanceDailyDataClient:
     def etl(self, filepath: str) -> CandlestickChart:
         data_list = self.extract()
         if data_list:
-            candlestick_chart = self.transform(data_list=data_list)
+            candlestick_chart = self.transform(data_list=data_list)  # type: ignore  # noqa: E501
             self.save_file(
                 candlestick_chart=candlestick_chart, filepath=filepath
             )

@@ -36,7 +36,7 @@ class IntervalTypeEnum(StrEnum):
     @staticmethod
     def get_interval_in_seconds(
         interval_type: "IntervalTypeEnum",
-    ) -> None | int:
+    ) -> int:
         unit: str | None = None
         value: int | None = None
         for prefix in [
