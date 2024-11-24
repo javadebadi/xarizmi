@@ -20,7 +20,6 @@ setup(
     ),
     name="xarizmi",
     include_package_data=True,  # Include files specified in MANIFEST.in
-    include_package_data=True,  # Ensure files are included
     package_data={
         "xarizmi.db": ["alembic.ini"],  # Include alembic.ini
         "xarizmi.db.alembic": ["*", "versions/*"],  # Include migrations
