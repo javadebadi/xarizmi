@@ -30,6 +30,10 @@ class Symbol(Base):  # type: ignore
         "Exchange", back_populates="symbols"
     )
 
+    candlesticks: Mapped[list["CandleStick"]] = relationship(  # type: ignore  # noqa: F821,E501
+        "CandleStick", back_populates="symbol"
+    )
+
     @property
     def symbol(self) -> str:
         return f"{self.base_currency}-{self.quote_currency}"

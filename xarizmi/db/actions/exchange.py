@@ -1,23 +1,35 @@
 from sqlalchemy.orm import Session
 
+from xarizmi.models.exchange import Exchange as PyExchange
+
 from ..models import Exchange
 
 
-def upsert_exchange(exchange_name: str, session: Session) -> Exchange:
+def upsert_exchange(exchange: PyExchange, session: Session) -> Exchange:
     """Creates exchange in db or returns it if it already exists"""
-    exchange = Exchange(name=exchange_name)
-    session.merge(exchange)
-    session.flush()
-    return exchange
+    db_exchange = (
+        session.query(Exchange)
+        .filter_by(
+            name=exchange.name,
+        )
+        .first()
+    )
+
+    if not db_exchange:
+        db_exchange = Exchange(
+            name=exchange.name,
+        )
+        session.merge(db_exchange)
+        session.flush()
+        session.commit()
+    return db_exchange
 
 
 def bulk_upsert_exchanges(
-    exchange_names: list[str], session: Session
+    exchanges: list[PyExchange], session: Session
 ) -> list[Exchange]:
-    exchanges = [
-        Exchange(name=exchange_name) for exchange_name in exchange_names
-    ]
+    db_exchanges = []
     for exchange in exchanges:
-        session.merge(exchange)
-        session.flush()
-    return exchanges
+        db_exchange = upsert_exchange(exchange=exchange, session=session)
+        db_exchanges.append(db_exchange)
+    return db_exchanges
