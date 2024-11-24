@@ -16,7 +16,7 @@ def run_db_migration() -> None:
     # Dynamically set the database URL in Alembic's config
     alembic_cfg.set_main_option("sqlalchemy.url", get_config().DATABASE_URL)
     alembic_cfg.set_main_option(
-        "script_location", (PARENT_DIR / "alembic").absolute().__str__()
+        "script_location", (PARENT_DIR / "alembic").__str__()
     )
 
     command.upgrade(alembic_cfg, "head")
