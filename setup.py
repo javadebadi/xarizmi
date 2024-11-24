@@ -19,6 +19,12 @@ setup(
         "contains tools for technical analysis in Python."
     ),
     name="xarizmi",
+    include_package_data=True,  # Include files specified in MANIFEST.in
+    include_package_data=True,  # Ensure files are included
+    package_data={
+        "xarizmi.db": ["alembic.ini"],  # Include alembic.ini
+        "xarizmi.db.alembic": ["*", "versions/*"],  # Include migrations
+    },
     packages=find_packages(include=["xarizmi", "xarizmi.*"]),
     version=xarizmi.__version__,
     install_requires=[
