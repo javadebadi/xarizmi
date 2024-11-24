@@ -29,6 +29,8 @@ setup(
         "matplotlib",
         "yfinance~=0.2",
         "TA-Lib",
+        "alembic>=1.13.1",
+        "SQLAlchemy>=2.0.30",
     ],
     python_requires=">=3.11",
     license="Apache 2.0",
