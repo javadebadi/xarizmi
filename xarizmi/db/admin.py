@@ -5,7 +5,8 @@ from alembic.config import Config
 
 from xarizmi.config import get_config
 
-alembic_ini = Path(__file__).parent / "alembic.ini"
+PARENT_DIR = Path(__file__).parent
+alembic_ini = PARENT_DIR / "alembic.ini"
 
 
 def run_db_migration() -> None:
@@ -14,5 +15,8 @@ def run_db_migration() -> None:
 
     # Dynamically set the database URL in Alembic's config
     alembic_cfg.set_main_option("sqlalchemy.url", get_config().DATABASE_URL)
+    alembic_cfg.set_main_option(
+        "script_location", (PARENT_DIR / "alembic").absolute().__str__()
+    )
 
     command.upgrade(alembic_cfg, "head")
