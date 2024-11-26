@@ -8,11 +8,14 @@ from xarizmi.db import run_db_migration
 from xarizmi.db.actions.candlestick import get_filtered_candlesticks
 from xarizmi.db.actions.candlestick import upsert_candlestick
 from xarizmi.db.actions.exchange import bulk_upsert_exchanges
+from xarizmi.db.actions.portfolio import upsert_portfolio
 from xarizmi.db.actions.symbol import bulk_upsert_symbols
 from xarizmi.db.actions.symbol import get_symbol
 from xarizmi.db.client import session_scope
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.exchange import Exchange
+from xarizmi.models.portfolio import Portfolio
+from xarizmi.models.portfolio import PortfolioItem
 from xarizmi.models.symbol import Symbol
 
 
@@ -69,6 +72,12 @@ def xarizmi_db_example() -> None:
                     fee_currency="USD",
                     exchange="crypto.com",
                 ),
+                Symbol.build(
+                    base_currency="BTC",
+                    quote_currency="USD",
+                    fee_currency="USD",
+                    exchange="crypto.com",
+                ),
             ],
             session=session,
         )
@@ -100,4 +109,36 @@ def xarizmi_db_example() -> None:
 
     result = get_filtered_candlesticks(session=session, symbol_name="CRO-USD")
     print(">>>>>>>>>>>>>>>>>>>>>")
+
+    portfolio = Portfolio(
+        items=[
+            PortfolioItem(
+                symbol=Symbol.build(
+                    base_currency="CRO",
+                    quote_currency="USD",
+                    fee_currency="USD",
+                    exchange="crypto.com",
+                ),
+                market_value=1000,
+                quantity=0.001,
+                datetime=dt(2024, 11, 25),
+            ),
+            PortfolioItem(
+                symbol=Symbol.build(
+                    base_currency="BTC",
+                    quote_currency="USD",
+                    fee_currency="USD",
+                    exchange="crypto.com",
+                ),
+                market_value=1000,
+                quantity=10000,
+                datetime=dt(2024, 11, 25),
+            ),
+        ]
+    )
+
+    upsert_portfolio(
+        portfolio=portfolio,
+        session=session,
+    )
     print(result)

@@ -34,6 +34,10 @@ class Symbol(Base):  # type: ignore
         "CandleStick", back_populates="symbol"
     )
 
+    portfolio_items: Mapped[list["PortfolioItem"]] = relationship(  # type: ignore  # noqa: F821,E501
+        "PortfolioItem", back_populates="symbol"
+    )
+
     @property
     def symbol(self) -> str:
         return f"{self.base_currency}-{self.quote_currency}"
