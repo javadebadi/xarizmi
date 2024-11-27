@@ -43,7 +43,7 @@ def get_portfolio_items_between_dates(
                             "name": item["fee_currency"],  # type: ignore
                         },
                         "exchange": {
-                            "name": item["quote_currency"],  # type: ignore
+                            "name": item["exchange_name"],  # type: ignore
                         },
                     },
                     "market_value": item["market_value"],  # type: ignore
