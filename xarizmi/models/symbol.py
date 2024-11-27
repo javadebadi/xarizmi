@@ -10,6 +10,21 @@ class Symbol(BaseModel):
     fee_currency: Currency
     exchange: Exchange | None = None
 
+    def __hash__(self) -> int:
+        return hash((self.base_currency.name, self.quote_currency.name))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Symbol):
+            raise NotImplementedError(
+                f"Can't compare objects of type {type(other)} and {type(self)}"
+            )
+        return (
+            self.base_currency == other.base_currency
+            and self.quote_currency == other.quote_currency
+            and self.fee_currency == other.fee_currency
+            and self.exchange == other.exchange
+        )
+
     @classmethod
     def build(
         cls,

@@ -79,3 +79,48 @@ class TestSymbol:
             "fee_currency": "USD",
             "exchange": "BINANCE",
         }
+
+    def test___eq__(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        other = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert symbol == other
+
+    def test___eq___when_they_are_not_equal(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        other = Symbol.build(
+            base_currency="CRO",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert symbol != other
+
+    def test_symbols_are_hashable(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        other = Symbol.build(
+            base_currency="CRO",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert set([symbol, other])
