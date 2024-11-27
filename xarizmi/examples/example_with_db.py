@@ -1,3 +1,4 @@
+import datetime
 from datetime import datetime as dt
 
 import pytz
@@ -9,6 +10,9 @@ from xarizmi.db.actions.candlestick import get_filtered_candlesticks
 from xarizmi.db.actions.candlestick import upsert_candlestick
 from xarizmi.db.actions.exchange import bulk_upsert_exchanges
 from xarizmi.db.actions.portfolio import upsert_portfolio
+from xarizmi.db.actions.portfolio.portfolio_read import (
+    get_portfolio_items_between_dates,
+)
 from xarizmi.db.actions.symbol import bulk_upsert_symbols
 from xarizmi.db.actions.symbol import get_symbol
 from xarizmi.db.client import session_scope
@@ -134,6 +138,17 @@ def xarizmi_db_example() -> None:
                 quantity=10000,
                 datetime=dt(2024, 11, 25),
             ),
+            PortfolioItem(
+                symbol=Symbol.build(
+                    base_currency="BTC",
+                    quote_currency="USD",
+                    fee_currency="USD",
+                    exchange="crypto.com",
+                ),
+                market_value=2000,
+                quantity=10000,
+                datetime=dt(2024, 11, 26),
+            ),
         ]
     )
 
@@ -141,4 +156,12 @@ def xarizmi_db_example() -> None:
         portfolio=portfolio,
         session=session,
     )
+
     print(result)
+
+    res = get_portfolio_items_between_dates(
+        session=session,
+        start_date=datetime.datetime(2024, 11, 25),
+        end_date=datetime.datetime(2024, 11, 25),
+    )
+    print(res)

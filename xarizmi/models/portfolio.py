@@ -52,6 +52,9 @@ class PortfolioRatio(BaseModel):
     def portfolio_datetime_ratio_in_days(self) -> float:
         return self.items[0].datetime_ratio_in_days
 
+    def __len__(self) -> int:
+        return len(self.items)
+
     @field_validator("items", mode="before")
     @classmethod
     def datetime_must_be_same(
