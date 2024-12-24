@@ -12,19 +12,19 @@ def time_value_money(
     Parameters
     ----------
     impatience_to_consume : float
-        Impatience to consume is the rate of exchange between future
-        consumption and curent consumption. The other name for this in
-        finance is "pure rate of interest".
+        People tend to prefer consuming now rather than later.
+        This is called impatience to consume.
+        The other name for this in finance is "pure rate of interest".
         For example, a person might have 2 percent (0.02) Impatience to
         consume which means that he or she expects 2 percent reward in order
         to not consume and invest instead.
 
     inflation : float
-        The inflation as defined in ecomony which is general progressive
+        The inflation as defined in economy which is general progressive
         increase in prices of goods and services in an economy.
 
     risk : float
-        The amount of risk which exists in an investement.
+        The amount of risk which exists in an investment.
 
 
     Returns
@@ -35,6 +35,8 @@ def time_value_money(
 
     Example
     -------
+    >>> round(time_value_money(0.05,0.10,0.045),4)
+    0.2
     >>> round(time_value_money(0.02,0.03,0),4)
     0.0506
 
