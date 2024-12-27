@@ -175,6 +175,25 @@ class CandlestickChart(BaseModel):
         df.set_index("datetime", inplace=True)
         return df
 
+    def save_simple_plot_no_volume(self, filepath: str) -> None:
+        custom_style = mpf.make_mpf_style(  # type: ignore
+            base_mpf_style="classic",
+            marketcolors=mpf.make_marketcolors(  # type: ignore
+                up="green",
+                down="red",
+                wick="black",
+                edge="inherit",
+            ),
+        )
+        mpf.plot(
+            self.to_df(),
+            type="candle",
+            style=custom_style,
+            title="Candlestick Chart",
+            ylabel="Price",
+            savefig="candlestick_chart.svg",
+        )
+
     def plot(self, figsize: tuple[int | float, int | float] = (8, 4)) -> None:
 
         df = self.to_df()
