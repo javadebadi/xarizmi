@@ -15,12 +15,13 @@ from xarizmi.db.actions.portfolio.portfolio_read import (
 )
 from xarizmi.db.actions.symbol import bulk_upsert_symbols
 from xarizmi.db.actions.symbol import get_symbol
-from xarizmi.db.client import session_scope
+from xarizmi.db.client import session_scope, get_engine
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.exchange import Exchange
 from xarizmi.models.portfolio import Portfolio
 from xarizmi.models.portfolio import PortfolioItem
 from xarizmi.models.symbol import Symbol
+from xarizmi.db.admin_tools import export_table_to_csv
 
 
 def xarizmi_db_example() -> None:
@@ -147,7 +148,7 @@ def xarizmi_db_example() -> None:
                 ),
                 market_value=2000,
                 quantity=10000,
-                datetime=dt(2024, 11, 26),
+                datetime=dt(2024, 11, 25),
             ),
         ]
     )
@@ -165,3 +166,6 @@ def xarizmi_db_example() -> None:
         end_date=datetime.datetime(2024, 11, 25),
     )
     print(res)
+
+
+export_table_to_csv("xarizmi_symbol", "xarizmi_symbol.csv", get_engine())

@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import Engine
 
 from xarizmi.config import get_config
 
@@ -17,3 +18,7 @@ def session_scope():  # type: ignore
         raise
     finally:
         session.close()
+
+
+def get_engine() -> Engine:
+    return get_config().db_engine
