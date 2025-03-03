@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import Engine
+from sqlalchemy.exc import SQLAlchemyError
 
 from xarizmi.config import get_config
 

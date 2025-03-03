@@ -11,11 +11,12 @@ from sqlalchemy.schema import UniqueConstraint
 
 from xarizmi.db.models.base import Base
 
+from .constants import TableNamesEnum
 from .symbol import Symbol
 
 
 class PortfolioItem(Base):  # type: ignore
-    __tablename__ = "xarizmi_portfolio_item"
+    __tablename__ = TableNamesEnum.PORTFOLIO_ITEM.value
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     symbol_id: Mapped[int] = mapped_column(

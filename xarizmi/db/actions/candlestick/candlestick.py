@@ -40,6 +40,5 @@ def upsert_candlestick(
             amount=candlestick.amount,
         )
         session.merge(db_candlestick)
-        session.flush()
     session.commit()
     return db_candlestick

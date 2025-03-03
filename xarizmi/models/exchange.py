@@ -13,3 +13,7 @@ class Exchange(BaseModel):
                 f"Can't compare objects of type {type(other)} and {type(self)}"
             )
         return self.name == other.name
+
+
+class ExchangeList(BaseModel):
+    items: list[Exchange]

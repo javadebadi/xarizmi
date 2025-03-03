@@ -14,11 +14,12 @@ from sqlalchemy.schema import UniqueConstraint
 from xarizmi.db.models.base import Base
 from xarizmi.enums import IntervalTypeEnum
 
+from .constants import TableNamesEnum
 from .symbol import Symbol
 
 
 class CandleStick(Base):  # type: ignore
-    __tablename__ = "xarizmi_candlestick"
+    __tablename__ = TableNamesEnum.CANDLESTICK.value
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     symbol_id: Mapped[int] = mapped_column(

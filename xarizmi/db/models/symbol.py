@@ -9,11 +9,12 @@ from sqlalchemy.schema import UniqueConstraint
 
 from xarizmi.db.models.base import Base
 
+from .constants import TableNamesEnum
 from .exchange import Exchange
 
 
 class Symbol(Base):  # type: ignore
-    __tablename__ = "xarizmi_symbol"
+    __tablename__ = TableNamesEnum.SYMBOL.value
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     base_currency: Mapped[str] = mapped_column(String, nullable=False)
     quote_currency: Mapped[str] = mapped_column(String, nullable=False)

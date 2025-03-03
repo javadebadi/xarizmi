@@ -1,3 +1,5 @@
+from typing import Self
+
 from pydantic import BaseModel
 
 from xarizmi.models.currency import Currency
@@ -118,3 +120,24 @@ class Symbol(BaseModel):
                 else None
             ),
         }
+
+
+class SymbolList(BaseModel):
+    items: list[Symbol] = []
+
+    @classmethod
+    def build(
+        cls,
+        items: list[dict[str, str]],
+    ) -> Self:
+        symbol_items = []
+        for item in items:
+            symbol_items.append(
+                Symbol.build(
+                    base_currency=item["base_currency"],
+                    quote_currency=item["quote_currency"],
+                    fee_currency=item["fee_currency"],
+                    exchange=item["exchange"],
+                )
+            )
+        return cls(items=symbol_items)

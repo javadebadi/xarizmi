@@ -285,3 +285,7 @@ class CandlestickChart(BaseModel):
         return find_local_maxima_of_maxima_indexes(
             [candle.high for candle in self.candles]
         )
+
+
+class CandlestickList(BaseModel):
+    items: list[Candlestick] = []
