@@ -13,3 +13,4 @@ pandas-stubs
 coverage
 pytest-cov
 pytest-sugar
+types-pytz

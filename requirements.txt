@@ -3,7 +3,7 @@ alembic==1.13.1
 SQLAlchemy==2.0.30
 psycopg2-binary==2.9.9
 numpy~=1.24
-TA-Lib
 matplotlib
 yfinance~=0.2
 mplfinance
+TA-Lib

@@ -2,17 +2,24 @@ from enum import IntEnum
 from enum import StrEnum
 
 
+class SideEnum(StrEnum):
+    BUY = "BUY"
+    SELL = "SELL"
+
+
+class OrderStatusEnum(StrEnum):
+    ACTIVE = "ACTIVE"
+    DONE = "DONE"
+    PARTIALLY_FILLED = "PARTIALLY_FILLED"
+    CANCELLED = "CANCELLED"
+
+
 class TimeUnitsSeconds(IntEnum):
     MIN = 60
     HOUR = 60 * 60
     DAY = 60 * 60 * 24
     WEEK = 60 * 60 * 24 * 7
     MONTH = 60 * 60 * 24 * 7 * 30
-
-
-class SideEnum(StrEnum):
-    BUY = "BUY"
-    SELL = "SELL"
 
 
 class IntervalTypeEnum(StrEnum):

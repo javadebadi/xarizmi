@@ -39,6 +39,10 @@ class Symbol(Base):  # type: ignore
         "PortfolioItem", back_populates="symbol"
     )
 
+    orders: Mapped[list["Order"]] = relationship(  # type: ignore  # noqa: F821,E501
+        "Order", back_populates="symbol"
+    )
+
     @property
     def symbol(self) -> str:
         return f"{self.base_currency}-{self.quote_currency}"

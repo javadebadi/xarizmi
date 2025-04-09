@@ -44,7 +44,9 @@ def export_table_to_csv(
     print(f"Table {table_name} has been exported to {output_file}")
 
 
-def export_table_to_json(table_name, output_file, engine):
+def export_table_to_json(
+    table_name: str, output_file: str | pathlib.Path, engine: Engine
+) -> None:
     """
     Exports a PostgreSQL table to a JSON file using SQLAlchemy with optional limit and offset.
 
@@ -88,7 +90,7 @@ def export_table_to_json(table_name, output_file, engine):
         )
 
 
-def export_candlestick_table_to_json(output_file, engine):
+def export_candlestick_table_to_json(output_file: str, engine: Engine) -> None:
     with engine.connect() as connection:
         # Build the query with optional LIMIT and OFFSET
         limit = 1000000
@@ -131,7 +133,7 @@ def export_candlestick_table_to_json(output_file, engine):
 def export_all_xarizmi_tables_to_json(
     engine: Engine,
     parent_dir: pathlib.Path = pathlib.Path(os.getcwd()),
-):
+) -> None:
     export_table_to_json(
         TableNamesEnum.EXCHANGE.value,
         parent_dir / f"{TableNamesEnum.EXCHANGE.value}.json",

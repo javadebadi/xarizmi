@@ -17,7 +17,9 @@ from xarizmi.models.symbol import Symbol
 from xarizmi.models.symbol import SymbolList
 
 
-def list_files_with_prefix(parent_dir: str | pathlib.Path, file_prefix: str):
+def list_files_with_prefix(
+    parent_dir: str | pathlib.Path, file_prefix: str
+) -> list[Path]:
     if isinstance(parent_dir, str):
         parent_dir = Path(parent_dir)
 
@@ -67,7 +69,10 @@ def load_pydantic_exchange_model_from_db_model_exported_json_file(
     for items in generator:
         exchanges += items
     if insert_in_db is True:
+        if session is None:
+            raise RuntimeError("Session is not provided!")
         bulk_upsert_exchanges(exchanges, session=session)
+    return exchanges
 
 
 def load_pydantic_symbol_model_from_db_model_exported_json_file(
@@ -96,7 +101,7 @@ def load_pydantic_symbol_model_from_db_model_exported_json_file(
 
 
 def load_pydantic_candlestick_model_from_db_model_exported_json_file(
-    parent_dir,
+    parent_dir: str,
     file_prefix: str = "xarizmi_candlestick_",
     insert_in_db: bool = False,
     session: None | Session = None,
@@ -160,7 +165,7 @@ def load_pydantic_candlestick_model_from_db_model_exported_json_file(
         file_prefix,
         transformer=transformer,
     )
-    cached_symbol_ids = {}
+    cached_symbol_ids: dict[Symbol, int] = {}
 
     for items in generator:
         if keep_in_memory is True:

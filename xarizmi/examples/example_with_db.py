@@ -9,19 +9,26 @@ from xarizmi.db import run_db_migration
 from xarizmi.db.actions.candlestick import get_filtered_candlesticks
 from xarizmi.db.actions.candlestick import upsert_candlestick
 from xarizmi.db.actions.exchange import bulk_upsert_exchanges
+from xarizmi.db.actions.order import delete_all_cancelled_orders
+from xarizmi.db.actions.order import delete_unique_order
+from xarizmi.db.actions.order import get_orders
+from xarizmi.db.actions.order import get_unique_order
+from xarizmi.db.actions.order import upsert_order
 from xarizmi.db.actions.portfolio import upsert_portfolio
 from xarizmi.db.actions.portfolio.portfolio_read import (
     get_portfolio_items_between_dates,
 )
 from xarizmi.db.actions.symbol import bulk_upsert_symbols
 from xarizmi.db.actions.symbol import get_symbol
-from xarizmi.db.client import session_scope, get_engine
+from xarizmi.db.client import session_scope
 from xarizmi.enums import IntervalTypeEnum
+from xarizmi.enums import OrderStatusEnum
+from xarizmi.enums import SideEnum
 from xarizmi.models.exchange import Exchange
+from xarizmi.models.orders import Order
 from xarizmi.models.portfolio import Portfolio
 from xarizmi.models.portfolio import PortfolioItem
 from xarizmi.models.symbol import Symbol
-from xarizmi.db.admin_tools import export_table_to_csv
 
 
 def xarizmi_db_example() -> None:
@@ -167,5 +174,84 @@ def xarizmi_db_example() -> None:
     )
     print(res)
 
+    # ============== Order ===================
+    BTC_USDT = Symbol.build(
+        base_currency="BTC",
+        quote_currency="USDT",
+        fee_currency="USDT",
+        exchange="COINBASE",
+    )
+    # create pydantic order
+    order = Order(
+        symbol=BTC_USDT,
+        price=75000,
+        amount=0.1,
+        status=OrderStatusEnum.ACTIVE,
+        side=SideEnum.BUY,
+        order_id="FAKEORDERID",
+    )
+    db_order = upsert_order(order=order, session=session)
+    # an other order
+    order = Order(
+        symbol=BTC_USDT,
+        price=50000,
+        amount=0.2,
+        status=OrderStatusEnum.DONE,
+        side=SideEnum.SELL,
+        order_id="FAKEORDERID_2",
+    )
+    db_order = upsert_order(order=order, session=session)
+    # an other order with CANCELLED status
+    order = Order(
+        symbol=BTC_USDT,
+        price=1000000,
+        amount=0.2,
+        status=OrderStatusEnum.CANCELLED,
+        side=SideEnum.BUY,
+        order_id="FAKEORDERID_3",
+    )
+    db_order = upsert_order(order=order, session=session)
 
-export_table_to_csv("xarizmi_symbol", "xarizmi_symbol.csv", get_engine())
+    order = get_unique_order(
+        session=session,
+        symbol=BTC_USDT,
+        order_id="FAKEORDERID",
+    )
+    print(f"Pydantic Order read from DB: {order=}")
+
+    # get all orders
+    orders = get_orders(
+        session=session,
+        symbol=BTC_USDT,
+    )
+    print(f"Number of all orders in order table: {len(orders)}")
+    # get active buy orders
+    orders = get_orders(
+        session=session,
+        symbol=BTC_USDT,
+        filter_by_side=SideEnum.BUY,
+        filter_by_status=[OrderStatusEnum.ACTIVE],
+    )
+    print(f"Number of all active orders in order table: {len(orders)}")
+
+    delete_unique_order(
+        session=session, symbol=BTC_USDT, order_id="FAKEORDERID_2"
+    )
+    # get all orders after delete on record
+    orders = get_orders(
+        session=session,
+        symbol=BTC_USDT,
+    )
+    print(f"Number of all orders in order table: {len(orders)}")
+
+    # delete all cancelled orders
+    delete_all_cancelled_orders(session=session)
+    # get all orders after delete on record
+    orders = get_orders(
+        session=session,
+        symbol=BTC_USDT,
+    )
+    print(f"Number of all orders in order table: {len(orders)}")
+
+
+# export_table_to_csv("xarizmi_symbol", "xarizmi_symbol.csv", get_engine())

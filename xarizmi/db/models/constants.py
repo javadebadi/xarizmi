@@ -6,3 +6,4 @@ class TableNamesEnum(StrEnum):
     PORTFOLIO_ITEM = "xarizmi_portfolio_item"
     SYMBOL = "xarizmi_symbol"
     CANDLESTICK = "xarizmi_candlestick"
+    ORDER = "xarizmi_order"
