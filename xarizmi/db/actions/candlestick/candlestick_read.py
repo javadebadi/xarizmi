@@ -50,7 +50,7 @@ def get_filtered_candlesticks(
 
     # Add ordering, skip, and limit for pagination
     query = (
-        query.order_by(CandleStick.datetime.desc()).offset(skip).limit(limit)
+        query.order_by(CandleStick.datetime.asc()).offset(skip).limit(limit)
     )
 
     # Execute the query
