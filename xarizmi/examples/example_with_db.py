@@ -119,7 +119,12 @@ def xarizmi_db_example() -> None:
         ),
     )
 
-    result = get_filtered_candlesticks(session=session, symbol_name="CRO-USD")
+    candlestick_chart = get_filtered_candlesticks(
+        session=session,
+        symbol=target_symbol,
+        filter_by_interval_type=IntervalTypeEnum.DAY_14,
+    )
+    candlestick_chart.plot()
     print(">>>>>>>>>>>>>>>>>>>>>")
 
     portfolio = Portfolio(
