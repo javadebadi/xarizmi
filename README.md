@@ -6,6 +6,11 @@ Xarizmi (read Khwarizmi) project is an educational project that contains tools f
 ```bash
 pip install xarizmi
 ```
+If you encounter error in installation use Anaconda and then install ta-lib using:
+`bash
+conda install -c conda-forge ta-lib
+`
+and then install other packages.
 
 ## Example
 

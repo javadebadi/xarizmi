@@ -73,13 +73,13 @@ def test(ctx: Context) -> None:
 
 @task
 def build(ctx: Context) -> None:
-    ctx.run("python3.12 setup.py sdist bdist_wheel")
+    ctx.run("python setup.py sdist bdist_wheel")
     print("Finished build!")
 
 
 @task
 def deploy(ctx: Context) -> None:
-    ctx.run("python3.12 -m twine upload dist/*")
+    ctx.run("python -m twine upload dist/*")
     print("Finished deploy!")
 
 
