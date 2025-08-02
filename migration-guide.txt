@@ -1,0 +1,9 @@
+# Install Alembic 
+# initalize Alembic
+
+mkdir -p xarizmi/db/alembic
+alembic init xarizmi/db/alembic
+
+
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head

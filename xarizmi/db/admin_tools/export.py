@@ -48,12 +48,14 @@ def export_table_to_json(
     table_name: str, output_file: str | pathlib.Path, engine: Engine
 ) -> None:
     """
-    Exports a PostgreSQL table to a JSON file using SQLAlchemy with optional limit and offset.
+    Exports a PostgreSQL table to a JSON file using SQLAlchemy with
+    optional limit and offset.
 
     Args:
         table_name (str): Name of the table to export.
         output_file (str): Path to the output JSON file.
-        engine (sqlalchemy.engine.Engine): SQLAlchemy engine connected to the database.
+        engine (sqlalchemy.engine.Engine): SQLAlchemy engine
+        connected to the database.
     """
     with engine.connect() as connection:
         # Build the query with optional LIMIT and OFFSET
@@ -86,11 +88,14 @@ def export_table_to_json(
                 json.dump(data, json_file, indent=4, default=str)
 
         print(
-            f"Table {table_name} has been exported to {output_file} (Limit: {limit}, Offset: {offset})"
+            f"Table {table_name} has been exported to "
+            f"{output_file} (Limit: {limit}, Offset: {offset})"
         )
 
 
-def export_candlestick_table_to_json(output_file: str, engine: Engine) -> None:
+def export_candlestick_table_to_json(
+    output_file: str | pathlib.Path, engine: Engine
+) -> None:
     with engine.connect() as connection:
         # Build the query with optional LIMIT and OFFSET
         limit = 1000000

@@ -170,8 +170,6 @@ def xarizmi_db_example() -> None:
         session=session,
     )
 
-    print(result)
-
     res = get_portfolio_items_between_dates(
         session=session,
         start_date=datetime.datetime(2024, 11, 25),
@@ -195,7 +193,7 @@ def xarizmi_db_example() -> None:
         side=SideEnum.BUY,
         order_id="FAKEORDERID",
     )
-    db_order = upsert_order(order=order, session=session)
+    upsert_order(order=order, session=session)
     # an other order
     order = Order(
         symbol=BTC_USDT,
@@ -205,7 +203,7 @@ def xarizmi_db_example() -> None:
         side=SideEnum.SELL,
         order_id="FAKEORDERID_2",
     )
-    db_order = upsert_order(order=order, session=session)
+    upsert_order(order=order, session=session)
     # an other order with CANCELLED status
     order = Order(
         symbol=BTC_USDT,
@@ -215,13 +213,13 @@ def xarizmi_db_example() -> None:
         side=SideEnum.BUY,
         order_id="FAKEORDERID_3",
     )
-    db_order = upsert_order(order=order, session=session)
+    upsert_order(order=order, session=session)
 
     order = get_unique_order(
         session=session,
         symbol=BTC_USDT,
         order_id="FAKEORDERID",
-    )
+    )  # type: ignore
     print(f"Pydantic Order read from DB: {order=}")
 
     # get all orders

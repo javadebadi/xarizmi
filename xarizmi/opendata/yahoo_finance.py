@@ -23,7 +23,7 @@ class YahooFinanceDailyDataClient:
 
     def extract(
         self,
-    ) -> list[dict[str, str | float | pd.Timestamp | dict[str, Any]]] | None:
+    ) -> list[dict[str, str | float | pd.Timestamp]] | None:
         stock_data: pd.DataFrame = yf.download(
             self.symbol, start=self.start_date, end=self.end_date
         )
