@@ -102,6 +102,10 @@ exclude = [
 module = ["numpy.*", "yfinance.*", "pandas.*", "matplotlib.*", "alembic.*"]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["xarizmi.utils.plot.timeseries.lineplot"]
+warn_unused_ignores = false
+
 [tool.black]
 line-length = 79
 
