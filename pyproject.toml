@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xarizmi"
-version = "0.13.0"
+version = "0.14.0"
 description = "Xarizmi (read Khwarizmi) project is an educational project that contains tools for technical analysis in Python."
 readme = "README.md"
 license = { text = "Apache 2.0" }
