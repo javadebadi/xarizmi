@@ -3,16 +3,12 @@ class Actor:
 
     def __init__(self, asset: float = 0) -> None:
         if asset < 0:
-            raise ValueError(
-                f"asset must be non-negative, got {asset}"
-            )
+            raise ValueError(f"asset must be non-negative, got {asset}")
         self.asset = asset
 
     def _check_funds_is_non_negative(self, funds: float) -> None:
         if funds < 0:
-            raise ValueError(
-                f"The given funds '{funds}' is not non-negative"
-            )
+            raise ValueError(f"The given funds '{funds}' is not non-negative")
 
     def add_funds(self, funds: float) -> None:
         self._check_funds_is_non_negative(funds=funds)

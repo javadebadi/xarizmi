@@ -468,8 +468,8 @@ def typecov(
 
     # Generate HTML report with type coverage
     c.run(
-        f"mypy {path} --html-report .mypy-coverage "
-        f"--txt-report .mypy-coverage",
+        f"mypy {path} --html-report .mypy-coverage --txt-report"
+        " .mypy-coverage",
         warn=True,
         pty=False,
     )
@@ -657,8 +657,8 @@ def duplication(
             f"Found duplicate code blocks (>= {min_lines} lines).",
         )
         print(
-            "Consider refactoring duplicated code into "
-            "reusable functions/classes."
+            "Consider refactoring duplicated code into reusable "
+            "functions/classes."
         )
         if strict:
             print("Running in strict mode - failing CI.")
@@ -667,8 +667,8 @@ def duplication(
             print("Running in informational mode - not failing CI.")
     else:
         print(
-            f"\n✅ No code duplication detected "
-            f"(threshold: {min_lines} lines)!"
+            f"\n✅ No code duplication detected"
+            f" (threshold: {min_lines} lines)!"
         )
 
 

@@ -71,5 +71,5 @@ class Transaction:
     def __str__(self) -> str:
         return (
             f"{'+' if self.inflow else '-'}{self.amount:,}"
-            " - {self.description}"
+            f"- {{self.description}}"
         )

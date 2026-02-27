@@ -26,26 +26,44 @@ from xarizmi.models.rebalance import (
 )
 from xarizmi.models.symbol import Symbol
 
-# ── 1. Build the current portfolio snapshot ───────────────────────────────────
+# ── 1. Build the current portfolio snapshot ────────────────────────────
 
 now = datetime.datetime(2024, 11, 26)
 
-btc = Symbol.build(base_currency="BTC", quote_currency="USD",
-                   fee_currency="USD", exchange="BINANCE")
-eth = Symbol.build(base_currency="ETH", quote_currency="USD",
-                   fee_currency="USD", exchange="BINANCE")
-sol = Symbol.build(base_currency="SOL", quote_currency="USD",
-                   fee_currency="USD", exchange="BINANCE")
+btc = Symbol.build(
+    base_currency="BTC",
+    quote_currency="USD",
+    fee_currency="USD",
+    exchange="BINANCE",
+)
+eth = Symbol.build(
+    base_currency="ETH",
+    quote_currency="USD",
+    fee_currency="USD",
+    exchange="BINANCE",
+)
+sol = Symbol.build(
+    base_currency="SOL",
+    quote_currency="USD",
+    fee_currency="USD",
+    exchange="BINANCE",
+)
 
 portfolio = Portfolio(
     items=[
-        PortfolioItem(symbol=btc, market_value=90_000, quantity=0.9,  datetime=now),
-        PortfolioItem(symbol=eth, market_value=30_000, quantity=10.0, datetime=now),
-        PortfolioItem(symbol=sol, market_value=10_000, quantity=62.5, datetime=now),
+        PortfolioItem(
+            symbol=btc, market_value=90_000, quantity=0.9, datetime=now
+        ),
+        PortfolioItem(
+            symbol=eth, market_value=30_000, quantity=10.0, datetime=now
+        ),
+        PortfolioItem(
+            symbol=sol, market_value=10_000, quantity=62.5, datetime=now
+        ),
     ]
 )
 
-# ── 2. Define target weights (must sum to 1.0) ────────────────────────────────
+# ── 2. Define target weights (must sum to 1.0) ──────────────────
 
 target = PortfolioAllocation(
     items=[
@@ -55,16 +73,19 @@ target = PortfolioAllocation(
     ]
 )
 
-# ── 3. Compute rebalancing actions ────────────────────────────────────────────
+# ── 3. Compute rebalancing actions ────────────────────────────────
 
 result = rebalance(portfolio, target)
 
-# ── 4. Print report ───────────────────────────────────────────────────────────
+# ── 4. Print report ───────────────────────────────────────────────
 
 print(f"Total portfolio value: ${result.total_value:>12,.0f}")
 print()
 
-header = f"{'Symbol':<10} {'Current':>12} {'Current%':>9} {'Target%':>8} {'Delta':>12} {'Action'}"
+header = (
+    f"{'Symbol':<10} {'Current':>12} {'Current%':>9} "
+    f"{'Target%':>8} {'Delta':>12} {'Action'}"
+)
 print(header)
 print("-" * len(header))
 
@@ -89,6 +110,12 @@ for item in sorted(result.items, key=lambda i: i.symbol.to_string()):
 print()
 print("── Orders ───────────────────────────────────")
 for item in result.to_sell():
-    print(f"  SELL {item.symbol.to_string():<8}  ${-item.delta_market_value:>10,.0f}")
+    print(
+        f"  SELL {item.symbol.to_string():<8}  "
+        f"${-item.delta_market_value:>10,.0f}"
+    )
 for item in result.to_buy():
-    print(f"  BUY  {item.symbol.to_string():<8}  ${item.delta_market_value:>10,.0f}")
+    print(
+        f"  BUY  {item.symbol.to_string():<8}  "
+        f"${item.delta_market_value:>10,.0f}"
+    )

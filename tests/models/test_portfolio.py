@@ -417,9 +417,7 @@ class TestPortfolioDifference:
 
 
 class TestPortfolioAdd:
-    def test___add__(
-        self, btc_symbol: Symbol, eth_symbol: Symbol
-    ) -> None:
+    def test___add__(self, btc_symbol: Symbol, eth_symbol: Symbol) -> None:
         items = [
             PortfolioItem(
                 symbol=btc_symbol,

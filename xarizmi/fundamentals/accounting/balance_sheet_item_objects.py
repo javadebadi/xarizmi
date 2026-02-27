@@ -111,7 +111,8 @@ ORIGINAL_INVESTMENT = BalanceSheetItem(
 RETAINED_EARNINGS = BalanceSheetItem(
     ID="211-0000000001",
     name="Retained Earnings",
-    origin="Retained Earnings is the earning that"
-    "is re-invested in the company",
+    origin=(
+        "Retained Earnings is the earning that is re-invested in the company"
+    ),
     balance_sheet_sub_main_group=BSSubMain.OWNERS_EQUITY,
 )

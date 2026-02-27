@@ -27,9 +27,7 @@ class PortfolioAllocation(BaseModel):
             raise ValueError("PortfolioAllocation cannot be empty")
         total = sum(item.weight for item in self.items)
         if abs(total - 1.0) > 1e-9:
-            raise ValueError(
-                f"Weights must sum to 1.0, got {total:.10f}"
-            )
+            raise ValueError(f"Weights must sum to 1.0, got {total:.10f}")
         return self
 
     def __getitem__(self, symbol: Symbol) -> float:
@@ -108,8 +106,18 @@ def rebalance(
     >>> eth = Symbol.build("ETH", "USD", "USD", "BINANCE")
     >>>
     >>> portfolio = Portfolio(items=[
-    ...     PortfolioItem(symbol=btc, market_value=80_000, quantity=1, datetime=now),
-    ...     PortfolioItem(symbol=eth, market_value=20_000, quantity=6, datetime=now),
+    ...     PortfolioItem(
+    ...         symbol=btc,
+    ...         market_value=80_000,
+    ...         quantity=1,
+    ...         datetime=now,
+    ...        ),
+    ...     PortfolioItem(
+    ...         symbol=eth,
+    ...         market_value=20_000,
+    ...         quantity=6,
+    ...         datetime=now,
+    ...     ),
     ... ])
     >>>
     >>> target = PortfolioAllocation(items=[
@@ -119,10 +127,14 @@ def rebalance(
     >>>
     >>> result = rebalance(portfolio, target)
     >>> for item in result.to_sell():
-    ...     print(f"SELL {item.symbol.to_string()}: ${-item.delta_market_value:,.0f}")
+    ...     print(
+    ...     f"SELL {item.symbol.to_string()}: ${-item.delta_market_value:,.0f}"
+    ...     )
     SELL BTC-USD: $30,000
     >>> for item in result.to_buy():
-    ...     print(f"BUY  {item.symbol.to_string()}: ${item.delta_market_value:,.0f}")
+    ...     print(
+    ...     f"BUY  {item.symbol.to_string()}: ${item.delta_market_value:,.0f}"
+    ...     )
     BUY  ETH-USD: $30,000
     """
     total_value = sum(item.market_value for item in portfolio.items)
