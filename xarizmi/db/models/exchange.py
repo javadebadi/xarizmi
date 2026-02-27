@@ -22,4 +22,4 @@ class Exchange(Base):  # type: ignore
 
     @classmethod
     def from_pydantic(cls, exchange: PyExchange) -> Self:
-        return cls(name=exchange)
+        return cls(name=exchange.name)

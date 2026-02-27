@@ -1,9 +1,12 @@
+from typing import Self
+
 from sqlalchemy import Enum, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
 from xarizmi.db.models.base import Base
 from xarizmi.enums import OrderStatusEnum, SideEnum
+from xarizmi.models.orders import Order as PyOrder
 
 from .constants import TableNamesEnum
 from .symbol import Symbol
@@ -37,3 +40,24 @@ class Order(Base):  # type: ignore
             name="uix_symbol_id_order_id",
         ),
     )
+
+    def to_pydantic(self) -> PyOrder:
+        return PyOrder(
+            symbol=self.symbol.to_pydantic(),
+            price=float(self.price),
+            amount=float(self.amount),
+            status=OrderStatusEnum(self.status),
+            side=SideEnum(self.side),
+            order_id=str(self.order_id) if self.order_id else None,
+        )
+
+    @classmethod
+    def from_pydantic(cls, order: PyOrder, symbol_id: int) -> Self:
+        return cls(
+            symbol_id=symbol_id,
+            order_id=order.order_id or "",
+            amount=order.amount,
+            price=order.price,
+            side=order.side,
+            status=order.status,
+        )

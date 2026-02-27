@@ -1,8 +1,13 @@
+from typing import Self
+
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import Computed, UniqueConstraint
 
 from xarizmi.db.models.base import Base
+from xarizmi.models.currency import Currency as PyCurrency
+from xarizmi.models.exchange import Exchange as PyExchange
+from xarizmi.models.symbol import Symbol as PySymbol
 
 from .constants import TableNamesEnum
 from .exchange import Exchange
@@ -41,6 +46,27 @@ class Symbol(Base):  # type: ignore
     @property
     def symbol(self) -> str:
         return f"{self.base_currency}-{self.quote_currency}"
+
+    def to_pydantic(self) -> PySymbol:
+        return PySymbol(
+            base_currency=PyCurrency(name=str(self.base_currency)),
+            quote_currency=PyCurrency(name=str(self.quote_currency)),
+            fee_currency=PyCurrency(name=str(self.fee_currency)),
+            exchange=(
+                PyExchange(name=str(self.exchange_name))
+                if self.exchange_name
+                else None
+            ),
+        )
+
+    @classmethod
+    def from_pydantic(cls, symbol: PySymbol) -> Self:
+        return cls(
+            base_currency=symbol.base_currency.name,
+            quote_currency=symbol.quote_currency.name,
+            fee_currency=symbol.fee_currency.name,
+            exchange_name=symbol.exchange.name if symbol.exchange else None,
+        )
 
     __table_args__ = (
         UniqueConstraint(
