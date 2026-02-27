@@ -28,6 +28,49 @@ c = Candlestick(
 ```
 
 
+### Portfolio Rebalancing
+
+```python
+import datetime
+from xarizmi.models.portfolio import Portfolio, PortfolioItem
+from xarizmi.models.rebalance import (
+    PortfolioAllocation, PortfolioAllocationItem, rebalance
+)
+from xarizmi.models.symbol import Symbol
+
+now = datetime.datetime(2024, 11, 26)
+btc = Symbol.build("BTC", "USD", "USD", "BINANCE")
+eth = Symbol.build("ETH", "USD", "USD", "BINANCE")
+sol = Symbol.build("SOL", "USD", "USD", "BINANCE")
+
+# Current holdings
+portfolio = Portfolio(items=[
+    PortfolioItem(symbol=btc, market_value=90_000, quantity=0.9,  datetime=now),
+    PortfolioItem(symbol=eth, market_value=30_000, quantity=10.0, datetime=now),
+    PortfolioItem(symbol=sol, market_value=10_000, quantity=62.5, datetime=now),
+])
+
+# Desired allocation
+target = PortfolioAllocation(items=[
+    PortfolioAllocationItem(symbol=btc, weight=0.50),
+    PortfolioAllocationItem(symbol=eth, weight=0.30),
+    PortfolioAllocationItem(symbol=sol, weight=0.20),
+])
+
+result = rebalance(portfolio, target)
+
+for item in result.to_sell():
+    print(f"SELL {item.symbol.to_string()}: ${-item.delta_market_value:,.0f}")
+# SELL BTC-USD: $25,000
+
+for item in result.to_buy():
+    print(f"BUY  {item.symbol.to_string()}: ${item.delta_market_value:,.0f}")
+# BUY  ETH-USD: $9,000
+# BUY  SOL-USD: $16,000
+```
+
+See [`examples/rebalance.py`](examples/rebalance.py) for the full runnable script.
+
 ### Indicators
 ### OBV Indicator
 ```python

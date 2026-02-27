@@ -1,5 +1,5 @@
 from xarizmi.models.currency import Currency
-from xarizmi.models.symbol import Symbol
+from xarizmi.models.symbol import Symbol, SymbolList
 
 
 class TestSymbol:
@@ -94,6 +94,15 @@ class TestSymbol:
         )
         assert symbol == other
 
+    def test___eq___with_non_symbol_returns_not_implemented(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert symbol.__eq__("BTC-USD") is NotImplemented
+
     def test___eq___when_they_are_not_equal(self) -> None:
         symbol = Symbol.build(
             base_currency="BTC",
@@ -122,4 +131,59 @@ class TestSymbol:
             fee_currency="USD",
             exchange="BINANCE",
         )
-        assert set([symbol, other])
+        assert len({symbol, other}) == 2
+
+    def test_hash_differs_by_exchange(self) -> None:
+        binance = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        coinbase = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="COINBASE",
+        )
+        assert len({binance, coinbase}) == 2
+
+    def test_hash_no_exchange(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange=None,
+        )
+        assert isinstance(hash(symbol), int)
+
+    def test_to_flat_csv(self) -> None:
+        symbol = Symbol.build(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            exchange="BINANCE",
+        )
+        assert symbol.to_flat_csv() == "BTC-USD"
+
+
+class TestSymbolList:
+    def test_build(self) -> None:
+        items = [
+            {
+                "base_currency": "BTC",
+                "quote_currency": "USD",
+                "fee_currency": "USD",
+                "exchange": "BINANCE",
+            },
+            {
+                "base_currency": "ETH",
+                "quote_currency": "USD",
+                "fee_currency": "USD",
+                "exchange": "BINANCE",
+            },
+        ]
+        symbol_list = SymbolList.build(items=items)
+        assert len(symbol_list.items) == 2
+        assert symbol_list.items[0].base_currency.name == "BTC"
+        assert symbol_list.items[1].base_currency.name == "ETH"

@@ -15,9 +15,7 @@ class PortfolioItem(BaseModel):
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PortfolioItem):
-            raise NotImplementedError(
-                f"Can't compare objects of type {type(other)} and {type(self)}"
-            )
+            return NotImplemented
         return (
             self.symbol == other.symbol
             and self.market_value == other.market_value
@@ -41,7 +39,9 @@ class PortfolioItemRatio(BaseModel):
 
     @property
     def return_ratio(self) -> float:
-        return self.market_value_ratio / self.quantity_ratio
+        return divide_with_no_zero_division_error(
+            self.market_value_ratio, self.quantity_ratio
+        )
 
 
 class PortfolioRatio(BaseModel):

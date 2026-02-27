@@ -13,13 +13,18 @@ class Symbol(BaseModel):
     exchange: Exchange | None = None
 
     def __hash__(self) -> int:
-        return hash((self.base_currency.name, self.quote_currency.name))
+        return hash(
+            (
+                self.base_currency.name,
+                self.quote_currency.name,
+                self.fee_currency.name,
+                self.exchange.name if self.exchange is not None else None,
+            )
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Symbol):
-            raise NotImplementedError(
-                f"Can't compare objects of type {type(other)} and {type(self)}"
-            )
+            return NotImplemented
         return (
             self.base_currency == other.base_currency
             and self.quote_currency == other.quote_currency

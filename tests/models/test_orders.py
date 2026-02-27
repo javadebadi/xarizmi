@@ -5,6 +5,25 @@ from xarizmi.models.symbol import Symbol
 
 
 class TestOrder:
+    def test_build_from_currencies(self) -> None:
+        order = Order.build_from_currencies(
+            base_currency="BTC",
+            quote_currency="USD",
+            fee_currency="USD",
+            order_id="12345",
+            price=75000,
+            amount=1,
+            status=OrderStatusEnum.ACTIVE,
+            side=SideEnum.BUY,
+            exchange="BINANCE",
+        )
+        assert order.price == 75000
+        assert order.amount == 1
+        assert order.order_id == "12345"
+        assert order.symbol.base_currency.name == "BTC"
+        assert order.symbol.exchange is not None
+        assert order.symbol.exchange.name == "BINANCE"
+
     def test(self) -> None:
         symbol = Symbol(
             base_currency=Currency(name="BTC"),

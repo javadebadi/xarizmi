@@ -13,6 +13,10 @@ class TestActor:
         actor = Actor(asset=1e10)
         assert isinstance(actor, Actor)
 
+    def test_negative_asset_raises_value_error(self) -> None:
+        with pytest.raises(ValueError):
+            Actor(asset=-1)
+
     def test_add_funds(self) -> None:
         actor = Actor(asset=1e10)
         actor.add_funds(1e10)
