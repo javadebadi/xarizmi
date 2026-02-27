@@ -1,2 +1,75 @@
+[build-system]
+requires = ["setuptools>=71"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xarizmi"
+version = "0.10.4"
+description = "Xarizmi (read Khwarizmi) project is an educational project that contains tools for technical analysis in Python."
+readme = "README.md"
+license = { text = "Apache 2.0" }
+authors = [{ name = "Javad Ebadi", email = "javad@javadebadi.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic==2.7.0",
+    "alembic>=1.13.1",
+    "SQLAlchemy>=2.0.30",
+    "psycopg2-binary>=2.9.9",
+    "numpy~=1.24",
+    "matplotlib",
+    "yfinance~=0.2",
+    "mplfinance",
+    "TA-Lib",
+    "scipy>=1.13.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/javadebadi/xarizmi"
+
+[dependency-groups]
+dev = [
+    # testing
+    "pytest>=8.1.1",
+    "pytest-cov",
+    "pytest-sugar",
+    "coverage",
+    # type checking
+    "mypy>=1.9.0",
+    "ty",
+    "pandas-stubs",
+    "types-pytz",
+    # formatting & linting
+    "ruff",
+    "black>=24.4.0",
+    # task runner
+    "invoke>=2.2.0",
+    # code quality
+    "radon",
+    "vulture",
+    "interrogate",
+    "pylint",
+    # security
+    "bandit",
+    "pip-audit",
+    "pip-licenses",
+    # publishing
+    "twine>=5.0.0",
+    # docs
+    "mkdocs",
+]
+
+[tool.setuptools.packages.find]
+include = ["xarizmi", "xarizmi.*"]
+
+[tool.setuptools.package-data]
+"xarizmi.db" = ["alembic.ini"]
+"xarizmi.db.alembic" = ["*", "versions/*"]
+
 [tool.black]
 line-length = 79
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
