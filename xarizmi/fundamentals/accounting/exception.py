@@ -1,5 +1,4 @@
-"""Exceptions for Accounting
-"""
+"""Exceptions for Accounting"""
 
 
 class AccountingError(Exception):

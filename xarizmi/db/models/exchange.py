@@ -1,9 +1,7 @@
 from typing import Self
 
-from sqlalchemy import Column
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
+from sqlalchemy.orm import Mapped, relationship
 
 from xarizmi.db.models.base import Base
 from xarizmi.models.exchange import Exchange as PyExchange

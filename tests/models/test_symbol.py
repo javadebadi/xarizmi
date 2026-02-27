@@ -3,7 +3,6 @@ from xarizmi.models.symbol import Symbol
 
 
 class TestSymbol:
-
     def test(self) -> None:
         symbol = Symbol(
             base_currency=Currency(name="BTC"),

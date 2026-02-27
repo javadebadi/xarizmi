@@ -2,10 +2,12 @@ import datetime
 
 import pytest
 
-from xarizmi.models.portfolio import Portfolio
-from xarizmi.models.portfolio import PortfolioItem
-from xarizmi.models.portfolio import PortfolioItemDifference
-from xarizmi.models.portfolio import PortfolioItemRatio
+from xarizmi.models.portfolio import (
+    Portfolio,
+    PortfolioItem,
+    PortfolioItemDifference,
+    PortfolioItemRatio,
+)
 from xarizmi.models.symbol import Symbol
 
 
@@ -50,7 +52,6 @@ def sol_symbol() -> Symbol:
 
 
 class TestPortfolio:
-
     def test_different_datetimes_in_portfolio_items(
         self, btc_symbol: Symbol, eth_symbol: Symbol
     ) -> None:

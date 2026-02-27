@@ -1,5 +1,4 @@
-"""Module for each item in balance sheet
-"""
+"""Module for each item in balance sheet"""
 
 from pydantic import BaseModel
 
@@ -52,7 +51,9 @@ class BalanceSheetItem(BaseModel):
             csv += f"{self.ID},{self.name},{self.origin}"
         if depth >= 1:
             csv += ","
-            csv += f"{self.balance_sheet_sub_main_group.to_csv(depth=depth-1)}"
+            csv += (
+                f"{self.balance_sheet_sub_main_group.to_csv(depth=depth - 1)}"
+            )
         csv += end
         return csv
 

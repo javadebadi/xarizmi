@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-from pydantic import NonNegativeFloat
+from pydantic import BaseModel, NonNegativeFloat
 
 
 class Actor(BaseModel):

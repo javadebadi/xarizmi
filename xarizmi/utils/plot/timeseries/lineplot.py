@@ -7,7 +7,6 @@ from matplotlib.figure import Figure
 
 
 class TimeSeriesLinePlot:
-
     def __init__(
         self,
         fig_size: tuple[int, int] = (10, 6),

@@ -5,7 +5,6 @@ from xarizmi.ta.obv import OBVIndicator
 
 
 class TestOBVIndicator:
-
     def test(
         self, btc_usdt_monthly_data: list[dict[str, int | float]]
     ) -> None:

@@ -10,7 +10,6 @@ from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
 
 
 class BalanceSheetItemTest(TestCase):
-
     def setUp(self) -> None:
         self.cash = BalanceSheetItem(
             ID="101-00000001",
@@ -70,7 +69,7 @@ class BalanceSheetItemTest(TestCase):
         )
         self.assertEqual(
             self.cash.to_csv(depth=1, end=""),
-            "101-00000001,Cash,Cash and Cash Equivalent," "1,Short Term Asset",
+            "101-00000001,Cash,Cash and Cash Equivalent,1,Short Term Asset",
         )
         self.assertEqual(
             self.cash.to_csv(depth=0, end=""),

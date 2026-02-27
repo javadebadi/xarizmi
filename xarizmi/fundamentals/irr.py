@@ -48,7 +48,6 @@ def generate_terminal_compounding_cash_formula(
 
 
 class IRR:
-
     def __init__(
         self,
         years: list[int],

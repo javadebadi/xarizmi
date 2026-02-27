@@ -1,5 +1,4 @@
-"""Balance Sheet Items Objects
-"""
+"""Balance Sheet Items Objects"""
 
 from .balance_sheet_item import BalanceSheetItem
 from .balance_sheet_submain_group import (

@@ -1,21 +1,16 @@
 from unittest import TestCase
 
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import ASSET
 from xarizmi.fundamentals.accounting.balance_sheet_main_group import (
+    ASSET,
     BALANCE_SHEET_MAIN_GROUP_OBJECTS,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import EQUITY
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import LIABILITY
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import (
+    EQUITY,
+    LIABILITY,
     BalanceSheetMainGroup,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import (
     BalanceSheetMainGroupObjects,
 )
 
 
 class BalanceSheetMainGroupTest(TestCase):
-
     def test_balance_sheet_main_group(self) -> None:
         b = BalanceSheetMainGroup(id=1, name="Asset")
         self.assertEqual(b.name, "Asset")
@@ -26,7 +21,6 @@ class BalanceSheetMainGroupTest(TestCase):
 
 
 class BalanceSheetMainGroupObjectsIndividualTest(TestCase):
-
     def test_object_ASSET(self) -> None:
         self.assertEqual(ASSET.id, 1)
         self.assertEqual(ASSET.name, "Asset")
@@ -46,7 +40,6 @@ class BalanceSheetMainGroupObjectsIndividualTest(TestCase):
 
 
 class BalanceSheetMainGroupObjectsTest(TestCase):
-
     def test_attribute_ASSET(self) -> None:
         self.assertIs(BalanceSheetMainGroupObjects.ASSET, ASSET)
 

@@ -22,8 +22,7 @@ SYMBOLS_LIST: list[str] = [
 def setup_data_directory() -> pathlib.Path:
 
     data_directory = (
-        pathlib.Path(".")
-        / "data"
+        pathlib.Path(".") / "data"
         # / datetime.date.today().strftime("%Y-%m-%d")
     )
     if not data_directory.exists():

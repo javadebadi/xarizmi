@@ -1,5 +1,4 @@
-"""A module to calculate time value of money
-"""
+"""A module to calculate time value of money"""
 
 
 def risk_free_return(

@@ -1,8 +1,5 @@
-from .delete import delete_all_cancelled_orders
-from .delete import delete_unique_order
-from .read import get_active_orders
-from .read import get_orders
-from .read import get_unique_order
+from .delete import delete_all_cancelled_orders, delete_unique_order
+from .read import get_active_orders, get_orders, get_unique_order
 from .upsert import upsert_order
 
 __all__ = [

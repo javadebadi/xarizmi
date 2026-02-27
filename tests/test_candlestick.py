@@ -1,8 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from xarizmi.candlestick import Candlestick
-from xarizmi.candlestick import CandlestickChart
+from xarizmi.candlestick import Candlestick, CandlestickChart
 from xarizmi.config import get_config
 
 
@@ -239,7 +238,6 @@ class TestCandlestick:
 
 
 class TestCandlestickChart:
-
     def test(self) -> None:
         data = {
             "candles": [

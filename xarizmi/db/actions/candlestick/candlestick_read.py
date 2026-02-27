@@ -28,9 +28,7 @@ def get_filtered_candlesticks(
     query = select(
         CandleStick,  # All columns from CandleStick
         Symbol.name.label("symbol_name"),  # Symbol name with alias
-    ).join(
-        Symbol, CandleStick.symbol_id == Symbol.id
-    )  # Join with Symbol
+    ).join(Symbol, CandleStick.symbol_id == Symbol.id)  # Join with Symbol
 
     # Add filters
     filters = []

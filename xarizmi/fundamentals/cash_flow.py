@@ -1,8 +1,6 @@
-"""A module to calculate cash flow
-"""
+"""A module to calculate cash flow"""
 
-from pydantic import BaseModel
-from pydantic import PositiveInt
+from pydantic import BaseModel, PositiveInt
 
 
 def compound_future(

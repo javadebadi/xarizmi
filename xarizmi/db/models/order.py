@@ -1,16 +1,9 @@
-from sqlalchemy import Enum
-from sqlalchemy import Float
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy import Enum, Float, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
 from xarizmi.db.models.base import Base
-from xarizmi.enums import OrderStatusEnum
-from xarizmi.enums import SideEnum
+from xarizmi.enums import OrderStatusEnum, SideEnum
 
 from .constants import TableNamesEnum
 from .symbol import Symbol

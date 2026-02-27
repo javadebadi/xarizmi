@@ -1,7 +1,6 @@
 from typing import Any
 
-from sqlalchemy import Engine
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker
 
 

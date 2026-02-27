@@ -2,7 +2,6 @@ from .balance_sheet_item import BalanceSheetItem
 
 
 class BalanceSheetItemTuple:
-
     def __init__(
         self,
         balance_sheet_item: BalanceSheetItem,

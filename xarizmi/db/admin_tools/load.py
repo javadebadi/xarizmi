@@ -5,16 +5,12 @@ from typing import Callable
 
 from sqlalchemy.orm import Session
 
-from xarizmi.candlestick import Candlestick
-from xarizmi.candlestick import CandlestickList
+from xarizmi.candlestick import Candlestick, CandlestickList
 from xarizmi.db.actions.candlestick import upsert_candlestick
 from xarizmi.db.actions.exchange import bulk_upsert_exchanges
-from xarizmi.db.actions.symbol import bulk_upsert_symbols
-from xarizmi.db.actions.symbol import get_symbol
-from xarizmi.models.exchange import Exchange
-from xarizmi.models.exchange import ExchangeList
-from xarizmi.models.symbol import Symbol
-from xarizmi.models.symbol import SymbolList
+from xarizmi.db.actions.symbol import bulk_upsert_symbols, get_symbol
+from xarizmi.models.exchange import Exchange, ExchangeList
+from xarizmi.models.symbol import Symbol, SymbolList
 
 
 def list_files_with_prefix(

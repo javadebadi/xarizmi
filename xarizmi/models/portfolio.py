@@ -1,7 +1,6 @@
 import datetime
 
-from pydantic import BaseModel
-from pydantic import field_validator
+from pydantic import BaseModel, field_validator
 
 from xarizmi.utils.math import divide_with_no_zero_division_error
 

@@ -1,5 +1,4 @@
-"""Module to calculate Present Value of Perpetuity
-"""
+"""Module to calculate Present Value of Perpetuity"""
 
 
 def perpetuity_present_value(

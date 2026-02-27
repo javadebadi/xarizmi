@@ -4,7 +4,6 @@ from xarizmi.fundamentals.irr import IRR
 
 
 class TestIRR(TestCase):
-
     def setUp(self) -> None:
         self.p1_irr = IRR([0, 1], [-11, 12], [None, None])
         self.p2_irr = IRR(

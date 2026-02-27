@@ -1,24 +1,16 @@
 from unittest import TestCase
 
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import ASSET
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import EQUITY
-from xarizmi.fundamentals.accounting.balance_sheet_main_group import LIABILITY
+from xarizmi.fundamentals.accounting.balance_sheet_main_group import (
+    ASSET,
+    EQUITY,
+    LIABILITY,
+)
 from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     LONG_TERM_ASSET,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     LONG_TERM_LIABILITY,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     OWNERS_EQUITY,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     SHORT_TERM_ASSET,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     SHORT_TERM_LIABILITY,
-)
-from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
     BalanceSheetSubMainGroup,
 )
 from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
@@ -27,7 +19,6 @@ from xarizmi.fundamentals.accounting.balance_sheet_submain_group import (
 
 
 class BalanceSheetSubMainGroupTest(TestCase):
-
     def test_balance_sheet_sub_main_group(self) -> None:
         b = BalanceSheetSubMainGroup(
             id=1,
@@ -44,7 +35,6 @@ class BalanceSheetSubMainGroupTest(TestCase):
 
 
 class BalanceSheetSubMainGroupObjectsIndividualTest(TestCase):
-
     def test_object_SHORT_TERM_ASSET(self) -> None:
         self.assertEqual(SHORT_TERM_ASSET.id, 1)
         self.assertEqual(SHORT_TERM_ASSET.name, "Short Term Asset")
@@ -76,7 +66,6 @@ class BalanceSheetSubMainGroupObjectsIndividualTest(TestCase):
 
 
 class BalanceSheetSubMainGroupObjectsTest(TestCase):
-
     def test_attribute_SHORT_TERM_ASSET(self) -> None:
         self.assertIs(BSSubMain.SHORT_TERM_ASSET, SHORT_TERM_ASSET)
 

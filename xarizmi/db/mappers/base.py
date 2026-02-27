@@ -1,5 +1,4 @@
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Type
 
 from pydantic import BaseModel as PydanticBaseModel
@@ -11,7 +10,6 @@ from xarizmi.db.models.symbol import Symbol as SqlAlchemySymbol
 
 
 class PydanticModelDbMapper(ABC):
-
     def __init__(
         self,
         pydantic_class: Type[PydanticBaseModel],

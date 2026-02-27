@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
-from xarizmi.enums import OrderStatusEnum
-from xarizmi.enums import SideEnum
+from xarizmi.enums import OrderStatusEnum, SideEnum
 
 from .symbol import Symbol
 

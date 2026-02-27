@@ -1,5 +1,4 @@
-"""Module for sub main group of items in Balance Sheet
-"""
+"""Module for sub main group of items in Balance Sheet"""
 
 from pydantic import BaseModel
 
@@ -47,7 +46,7 @@ class BalanceSheetSubMainGroup(BaseModel):
         """Returns comma separated value representation."""
         if depth < 0:
             return "" + end
-        deep_part = f"{self.balance_sheet_main_group.to_csv(depth=depth-1)}"
+        deep_part = f"{self.balance_sheet_main_group.to_csv(depth=depth - 1)}"
         if deep_part:
             deep_part = "," + deep_part
         return f"{self.id},{self.name}" + deep_part + end

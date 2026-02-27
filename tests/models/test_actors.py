@@ -1,13 +1,14 @@
 import pytest
 
-from xarizmi.models.actors import Actor
-from xarizmi.models.actors import ExchangeActor
-from xarizmi.models.actors import InvestorActor
-from xarizmi.models.actors import TraderActor
+from xarizmi.models.actors import (
+    Actor,
+    ExchangeActor,
+    InvestorActor,
+    TraderActor,
+)
 
 
 class TestActor:
-
     def test(self) -> None:
         actor = Actor(asset=1e10)
         assert isinstance(actor, Actor)
@@ -36,7 +37,6 @@ class TestActor:
 
 
 class TestExchangeActor:
-
     def test(self) -> None:
         actor = ExchangeActor(asset=1e10)
         assert isinstance(actor, Actor)
@@ -44,7 +44,6 @@ class TestExchangeActor:
 
 
 class TestTraderActor:
-
     def test(self) -> None:
         actor = TraderActor(asset=1e6)
         assert isinstance(actor, Actor)
@@ -52,7 +51,6 @@ class TestTraderActor:
 
 
 class TestInvestorActor:
-
     def test(self) -> None:
         actor = InvestorActor(asset=1e6)
         assert isinstance(actor, Actor)

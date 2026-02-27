@@ -4,18 +4,19 @@ from typing import Any
 import mplfinance as mpf
 import numpy as np
 import pandas as pd
-from pydantic import BaseModel
-from pydantic import NonNegativeFloat
+from pydantic import BaseModel, NonNegativeFloat
 
 from xarizmi.config import config
 from xarizmi.enums import IntervalTypeEnum
 from xarizmi.models.exchange import Exchange
 from xarizmi.models.symbol import Symbol
-from xarizmi.utils.extremums import find_local_maxima_indexes
-from xarizmi.utils.extremums import find_local_maxima_of_maxima_indexes
-from xarizmi.utils.extremums import find_local_minima_indexes
-from xarizmi.utils.extremums import find_local_minima_of_minima_indexes
-from xarizmi.utils.extremums import find_local_minima_values
+from xarizmi.utils.extremums import (
+    find_local_maxima_indexes,
+    find_local_maxima_of_maxima_indexes,
+    find_local_minima_indexes,
+    find_local_minima_of_minima_indexes,
+    find_local_minima_values,
+)
 from xarizmi.utils.numbers import round_to_significant_digit
 
 
@@ -257,7 +258,7 @@ class CandlestickChart(BaseModel):
     ) -> list[int | float]:
         if price_type not in ["low", "high", "close", "open"]:
             raise ValueError(
-                f"The given value for {price_type=}" f" is not valid!"
+                f"The given value for {price_type=} is not valid!"
             )
         values = find_local_minima_values(
             [getattr(candle, price_type) for candle in self.candles]

@@ -1,11 +1,9 @@
-"""Module for Financial Transactions
-"""
+"""Module for Financial Transactions"""
 
 import datetime
 
 
 class Transaction:
-
     def __init__(
         self,
         ID: str,

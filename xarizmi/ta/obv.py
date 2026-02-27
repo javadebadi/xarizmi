@@ -4,13 +4,14 @@ from matplotlib.figure import Figure
 from talib import abstract
 
 from xarizmi.candlestick import CandlestickChart
-from xarizmi.utils.extremums import find_local_maxima_of_maxima_indexes
-from xarizmi.utils.extremums import find_local_minima_of_minima_indexes
+from xarizmi.utils.extremums import (
+    find_local_maxima_of_maxima_indexes,
+    find_local_minima_of_minima_indexes,
+)
 from xarizmi.utils.plot.timeseries.lineplot import TimeSeriesLinePlot
 
 
 class OBVIndicator:
-
     def __init__(
         self, candlestick_chart: CandlestickChart, volume: str = "volume"
     ) -> None:

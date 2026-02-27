@@ -1,11 +1,6 @@
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
-from sqlalchemy.schema import Computed
-from sqlalchemy.schema import UniqueConstraint
+from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.schema import Computed, UniqueConstraint
 
 from xarizmi.db.models.base import Base
 

@@ -2,9 +2,9 @@ import pytest
 
 from xarizmi.fundamentals.utils import (
     calculate_average_compound_return_rate_per_period,
+    calculate_compound_return_rate,
+    calculate_return_rate_from_price,
 )
-from xarizmi.fundamentals.utils import calculate_compound_return_rate
-from xarizmi.fundamentals.utils import calculate_return_rate_from_price
 
 
 @pytest.mark.parametrize(
@@ -35,7 +35,7 @@ def test_calculate_compound_return_rate(
     *,
     n_periods: int,
     return_rate_per_period: float,
-    expected_return_rate: float
+    expected_return_rate: float,
 ) -> None:
     assert calculate_compound_return_rate(
         n_periods=n_periods, return_rate_per_period=return_rate_per_period

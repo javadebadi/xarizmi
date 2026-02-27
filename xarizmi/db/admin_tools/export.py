@@ -3,8 +3,7 @@ import json
 import os
 import pathlib
 
-from sqlalchemy import Engine
-from sqlalchemy import text
+from sqlalchemy import Engine, text
 
 from xarizmi.db.models.constants import TableNamesEnum
 

@@ -4,8 +4,7 @@ from sqlalchemy.sql import and_
 
 from xarizmi.db.actions.symbol import get_symbol
 from xarizmi.db.models.order import Order
-from xarizmi.enums import OrderStatusEnum
-from xarizmi.enums import SideEnum
+from xarizmi.enums import OrderStatusEnum, SideEnum
 from xarizmi.models import Symbol as PySymbol
 from xarizmi.models.orders import Order as PyOrder
 

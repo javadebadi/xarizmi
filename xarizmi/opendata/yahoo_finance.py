@@ -1,5 +1,4 @@
-"""A client to download Yahoo Finance data
-"""
+"""A client to download Yahoo Finance data"""
 
 from typing import Any
 
@@ -10,7 +9,6 @@ from xarizmi.candlestick import CandlestickChart
 
 
 class YahooFinanceDailyDataClient:
-
     def __init__(
         self,
         symbol: str,
@@ -73,9 +71,7 @@ class YahooFinanceDailyDataClient:
     def etl(self, filepath: str) -> CandlestickChart:
         data_list = self.extract()
         if data_list:
-            candlestick_chart = self.transform(
-                data_list=data_list
-            )  # noqa: E501
+            candlestick_chart = self.transform(data_list=data_list)  # noqa: E501
             self.save_file(
                 candlestick_chart=candlestick_chart, filepath=filepath
             )

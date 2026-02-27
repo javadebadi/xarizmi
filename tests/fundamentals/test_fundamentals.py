@@ -18,7 +18,6 @@ def apple_finance_fundamentals_2024() -> dict[str, float | int]:
 
 
 class TestFundamentals:
-
     def test(
         self, apple_finance_fundamentals_2024: dict[str, float | int]
     ) -> None:

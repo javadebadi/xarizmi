@@ -1,12 +1,10 @@
-from xarizmi.enums import OrderStatusEnum
-from xarizmi.enums import SideEnum
+from xarizmi.enums import OrderStatusEnum, SideEnum
 from xarizmi.models.currency import Currency
 from xarizmi.models.orders import Order
 from xarizmi.models.symbol import Symbol
 
 
 class TestOrder:
-
     def test(self) -> None:
         symbol = Symbol(
             base_currency=Currency(name="BTC"),

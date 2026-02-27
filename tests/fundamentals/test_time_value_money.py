@@ -1,11 +1,12 @@
 import pytest
 
-from xarizmi.fundamentals.time_value_money import risk_free_return
-from xarizmi.fundamentals.time_value_money import time_value_money
+from xarizmi.fundamentals.time_value_money import (
+    risk_free_return,
+    time_value_money,
+)
 
 
 class TestTimeValueMoney:
-
     @pytest.mark.parametrize(
         [
             "impatience_to_consume",

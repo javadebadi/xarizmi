@@ -1,9 +1,11 @@
 import pytest
 
-from xarizmi.utils.extremums import find_local_maxima_indexes
-from xarizmi.utils.extremums import find_local_maxima_values
-from xarizmi.utils.extremums import find_local_minima_indexes
-from xarizmi.utils.extremums import find_local_minima_values
+from xarizmi.utils.extremums import (
+    find_local_maxima_indexes,
+    find_local_maxima_values,
+    find_local_minima_indexes,
+    find_local_minima_values,
+)
 
 
 @pytest.mark.parametrize(
