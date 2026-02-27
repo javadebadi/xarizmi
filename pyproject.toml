@@ -9,6 +9,20 @@ description = "Xarizmi (read Khwarizmi) project is an educational project that c
 readme = "README.md"
 license = { text = "Apache 2.0" }
 authors = [{ name = "Javad Ebadi", email = "javad@javadebadi.com" }]
+keywords = ["technical-analysis", "finance", "candlestick", "trading", "indicators"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 requires-python = ">=3.11"
 dependencies = [
     "pydantic==2.7.0",
@@ -95,3 +109,23 @@ line-length = 79
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v"
+
+[tool.coverage.run]
+source = ["xarizmi"]
+omit = ["*/tests/*", "*/test_*.py", "xarizmi/db/admin_tools/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]

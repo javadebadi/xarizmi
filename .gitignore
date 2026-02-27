@@ -167,6 +167,9 @@ cython_debug/
 
 
 
+# IDEs
+.vscode/
+
 # other files
 z.py
 zz.py
@@ -174,4 +177,6 @@ yload_dumped_db.py
 ydump_db.py
 y.py
 yffuture.py
+main.py
+download.py
 
