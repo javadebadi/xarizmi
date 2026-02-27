@@ -75,8 +75,8 @@ def mypy(c: Context, path: str = ".") -> None:
 
 @task(help={"path": "Path to tests or test folder."})
 def ty(c: Context, path: str = ".") -> None:
-    """Run ty type checking (faster alternative to mypy)."""
-    c.run(f"ty check {path}", pty=True)
+    """Run ty type checking (informational; no Pydantic plugin yet)."""
+    c.run(f"ty check {path}", pty=True, warn=True)
 
 
 @task(help={"path": "Path to tests or test folder."})

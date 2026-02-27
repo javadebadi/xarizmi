@@ -84,7 +84,7 @@ class AnnualCashFlow:
         ),
         time_value_money: float = 0,
     ) -> None:
-        self.cash_flow = cash_flow  # type: ignore
+        self.cash_flow = cash_flow
         self.time_value_money = time_value_money
         self.discounted_cash_flow = self.calculate_discounted_cash_flow()
 

@@ -65,6 +65,28 @@ include = ["xarizmi", "xarizmi.*"]
 "xarizmi.db" = ["alembic.ini"]
 "xarizmi.db.alembic" = ["*", "versions/*"]
 
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+strict = true
+mypy_path = "typings"
+exclude = [
+    "xarizmi/db/admin_tools/",
+    "xarizmi/db/alembic/",
+    "^z\\.py$",
+    "^zz\\.py$",
+    "^y\\.py$",
+    "^yffuture\\.py$",
+    "^yload_dumped_db\\.py$",
+    "^ydump_db\\.py$",
+    "^download\\.py$",
+    "^main\\.py$",
+    "^x_",
+]
+
+[[tool.mypy.overrides]]
+module = ["numpy.*", "yfinance.*", "pandas.*", "matplotlib.*", "alembic.*"]
+ignore_missing_imports = true
+
 [tool.black]
 line-length = 79
 

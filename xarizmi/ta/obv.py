@@ -32,7 +32,7 @@ class OBVIndicator:
                 [candle.amount for candle in self.candlestick_chart.candles]
             ).astype(np.float64)
         self.indicator_data = abstract.OBV(close, volume).tolist()
-        return self.indicator_data  # type: ignore
+        return self.indicator_data
 
     def compute_local_minimas(self) -> list[int]:
         if self.indicator_data is not None:
