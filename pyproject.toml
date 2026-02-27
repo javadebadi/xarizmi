@@ -67,6 +67,7 @@ dev = [
     "pip-audit",
     "pip-licenses",
     # publishing
+    "build",
     "twine>=5.0.0",
     # docs
     "mkdocs",

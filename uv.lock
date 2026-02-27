@@ -2887,6 +2887,7 @@ dependencies = [
 dev = [
     { name = "bandit" },
     { name = "black" },
+    { name = "build" },
     { name = "coverage" },
     { name = "interrogate" },
     { name = "invoke" },
@@ -2925,6 +2926,7 @@ requires-dist = [
 dev = [
     { name = "bandit" },
     { name = "black", specifier = ">=24.4.0" },
+    { name = "build" },
     { name = "coverage" },
     { name = "interrogate" },
     { name = "invoke", specifier = ">=2.2.0" },

@@ -1,0 +1,87 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TA-Lib C library
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y python3-dev libatlas-base-dev
+          curl -L -o ta-lib-0.4.0-src.tar.gz \
+            https://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
+          tar -xzf ta-lib-0.4.0-src.tar.gz
+          cd ta-lib/
+          ./configure --prefix=/usr
+          make
+          sudo make install
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: |
+          uv venv --python=3.12
+          uv sync --dev
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Tag version: $VERSION"
+
+      - name: Extract version from pyproject.toml
+        id: get_package_version
+        run: |
+          PACKAGE_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "Package version: $PACKAGE_VERSION"
+
+      - name: Validate version match
+        run: |
+          TAG_VERSION="${{ steps.get_version.outputs.VERSION }}"
+          PACKAGE_VERSION="${{ steps.get_package_version.outputs.PACKAGE_VERSION }}"
+
+          echo "Tag version:     $TAG_VERSION"
+          echo "Package version: $PACKAGE_VERSION"
+
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "❌ Version mismatch: tag v$TAG_VERSION != pyproject.toml $PACKAGE_VERSION"
+            exit 1
+          fi
+
+          echo "✅ Versions match. Proceeding with publication..."
+
+      - name: Run CI checks
+        run: uv run invoke code.ci
+
+      - name: Build package
+        run: uv run python -m build
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: uv run python -m twine upload dist/*
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
