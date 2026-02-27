@@ -14,7 +14,9 @@ class Config:
 
     def reset(self) -> None:
         self._settings[self._NAME_DOJINESS_THRESHOLD] = 0.95
-        self.DATABASE_URL = "postgresql://postgres:1@localhost/xarizmi"
+        self.DATABASE_URL = (
+            "postgresql://postgres:1@localhost/xarizmi_migrate_temp"
+        )
 
     @property
     def DOJINESS_THRESHOLD(self) -> float:

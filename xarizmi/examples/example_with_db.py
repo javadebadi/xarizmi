@@ -33,7 +33,9 @@ from xarizmi.models.symbol import Symbol
 
 def xarizmi_db_example() -> None:
     config = get_config()
-    config.DATABASE_URL = "postgresql://postgres:1@localhost/xarizmi"
+    config.DATABASE_URL = (
+        "postgresql://postgres:1@localhost/xarizmi_migrate_temp"
+    )
 
     run_db_migration()
     # insert exchanges to exchange table
