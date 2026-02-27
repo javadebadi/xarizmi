@@ -75,7 +75,7 @@ def export_table_to_json(
             headers = result.keys()
 
             # Convert rows to a list of dictionaries
-            data = [dict(zip(headers, row)) for row in result]
+            data = [dict(zip(headers, row, strict=False)) for row in result]
 
             if len(data) <= 0:
                 break
@@ -122,7 +122,7 @@ def export_candlestick_table_to_json(
             headers = result.keys()
 
             # Convert rows to a list of dictionaries
-            data = [dict(zip(headers, row)) for row in result]
+            data = [dict(zip(headers, row, strict=False)) for row in result]
 
             if len(data) <= 0:
                 break
@@ -136,8 +136,10 @@ def export_candlestick_table_to_json(
 
 def export_all_xarizmi_tables_to_json(
     engine: Engine,
-    parent_dir: pathlib.Path = pathlib.Path(os.getcwd()),
+    parent_dir: pathlib.Path | None = None,
 ) -> None:
+    if parent_dir is None:
+        parent_dir = pathlib.Path(os.getcwd())
     export_table_to_json(
         TableNamesEnum.EXCHANGE.value,
         parent_dir / f"{TableNamesEnum.EXCHANGE.value}.json",

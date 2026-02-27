@@ -91,7 +91,9 @@ class IRR:
     def _process(self) -> FormulaTuple:
         func_list = []
         func_string_list = []
-        for year, cf, kind in zip(self.years, self.cfs, self.kinds):
+        for year, cf, kind in zip(
+            self.years, self.cfs, self.kinds, strict=False
+        ):
             func_list.append(
                 generate_discounted_cash_formula(year, cf, kind).formula
             )
@@ -118,9 +120,15 @@ class IRR:
         func_list = []
         terminal_year = max(self.years)
         initial_investment = abs(
-            sum(cf for year, cf in zip(self.years, self.cfs) if year == 0)
+            sum(
+                cf
+                for year, cf in zip(self.years, self.cfs, strict=False)
+                if year == 0
+            )
         )
-        for year, cf, kind in zip(self.years, self.cfs, self.kinds):
+        for year, cf, kind in zip(
+            self.years, self.cfs, self.kinds, strict=False
+        ):
             if year == 0:
                 continue
             func_list.append(

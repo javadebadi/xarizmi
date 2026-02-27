@@ -251,7 +251,8 @@ def complexity(
 
     if verbose:
         print(
-            f"\n🔄 Checking cyclomatic complexity (threshold: {max_complexity})..."
+            f"\n🔄 Checking cyclomatic complexity "
+            f"(threshold: {max_complexity})..."
         )
         c.run(
             f"radon cc {path} -s -a --total-average",
@@ -300,7 +301,8 @@ def complexity(
         exit(1)
     else:
         print(
-            f"\n✅ All functions are within complexity threshold ({max_complexity})!",
+            f"\n✅ All functions are within complexity threshold "
+            f"({max_complexity})!",
         )
 
 
@@ -357,7 +359,8 @@ def deadcode(
             f"Review unused code above (confidence >= {min_confidence}%).",
         )
         print(
-            "Note: May include false positives (FastAPI routes, fixtures, etc.)"
+            "Note: May include false positives "
+            "(FastAPI routes, fixtures, etc.)"
         )
         if strict:
             print("Running in strict mode - failing CI.")
@@ -465,7 +468,8 @@ def typecov(
 
     # Generate HTML report with type coverage
     c.run(
-        f"mypy {path} --html-report .mypy-coverage --txt-report .mypy-coverage",
+        f"mypy {path} --html-report .mypy-coverage "
+        f"--txt-report .mypy-coverage",
         warn=True,
         pty=False,
     )
@@ -475,7 +479,7 @@ def typecov(
         with open(".mypy-coverage/index.txt") as f:
             content = f.read()
             # Look for Total imprecision percentage in report
-            # Mypy reports "imprecision" - we calculate coverage as 100 - imprecision
+            # Mypy reports "imprecision" - coverage = 100 - imprecision
             import re
 
             # Look for line like: | Total | 7.35% imprecise | 13293 LOC |
@@ -521,8 +525,10 @@ def typecov(
 
 @task(
     help={
-        "output_format": "Output format: table, json, csv, markdown (default: table)",
-        "fail_on": "Fail if these licenses found (comma-separated, e.g., 'GPL,AGPL')",
+        "output_format": "Output format: table, json, csv, markdown"
+        " (default: table)",
+        "fail_on": "Fail if these licenses found"
+        " (comma-separated, e.g., 'GPL,AGPL')",
         "strict": "Fail if any license issues found (default: False)",
     },
 )
@@ -633,7 +639,7 @@ def duplication(
     print("🔍 Detecting code duplication...\n")
 
     # Run pylint with only duplicate-code checker enabled
-    # --disable=all --enable=duplicate-code ensures we only check for duplication
+    # --disable=all --enable=duplicate-code: only check for duplication
     result = c.run(
         f"pylint --disable=all --enable=duplicate-code "
         f"--min-similarity-lines={min_lines} "
@@ -651,7 +657,8 @@ def duplication(
             f"Found duplicate code blocks (>= {min_lines} lines).",
         )
         print(
-            "Consider refactoring duplicated code into reusable functions/classes."
+            "Consider refactoring duplicated code into "
+            "reusable functions/classes."
         )
         if strict:
             print("Running in strict mode - failing CI.")
@@ -660,7 +667,8 @@ def duplication(
             print("Running in informational mode - not failing CI.")
     else:
         print(
-            f"\n✅ No code duplication detected (threshold: {min_lines} lines)!"
+            f"\n✅ No code duplication detected "
+            f"(threshold: {min_lines} lines)!"
         )
 
 
