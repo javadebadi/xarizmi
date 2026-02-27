@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class Currency(BaseModel):
+@dataclass
+class Currency:
     name: str
 
     def to_string(self) -> str:
@@ -9,7 +10,8 @@ class Currency(BaseModel):
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Currency):
-            raise NotImplementedError(
-                f"Can't compare objects of type {type(other)} and {type(self)}"
-            )
+            return NotImplemented
         return self.name == other.name
+
+    def __hash__(self) -> int:
+        return hash(self.name)

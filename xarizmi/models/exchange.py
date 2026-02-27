@@ -1,7 +1,10 @@
+from dataclasses import dataclass
+
 from pydantic import BaseModel
 
 
-class Exchange(BaseModel):
+@dataclass
+class Exchange:
     name: str
 
     def to_string(self) -> str:
@@ -9,10 +12,11 @@ class Exchange(BaseModel):
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Exchange):
-            raise NotImplementedError(
-                f"Can't compare objects of type {type(other)} and {type(self)}"
-            )
+            return NotImplemented
         return self.name == other.name
+
+    def __hash__(self) -> int:
+        return hash(self.name)
 
 
 class ExchangeList(BaseModel):

@@ -18,7 +18,7 @@ class Exchange(Base):  # type: ignore
     )
 
     def to_pydantic(self) -> PyExchange:
-        return PyExchange(name=self.name)
+        return PyExchange(name=str(self.name))
 
     @classmethod
     def from_pydantic(cls, exchange: PyExchange) -> Self:
