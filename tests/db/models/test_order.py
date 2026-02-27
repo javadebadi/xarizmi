@@ -1,13 +1,15 @@
 import pytest
+from sqlalchemy.orm import Session
 
 from xarizmi.db.models.order import Order
+from xarizmi.db.models.symbol import Symbol
 from xarizmi.enums import OrderStatusEnum, SideEnum
 from xarizmi.models.orders import Order as PyOrder
 from xarizmi.models.symbol import Symbol as PySymbol
 
 
 @pytest.fixture
-def py_order(db_symbol) -> PyOrder:  # type: ignore[no-untyped-def]
+def py_order(db_symbol: Symbol) -> PyOrder:
     return PyOrder(
         symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
         price=50000.0,
@@ -19,31 +21,37 @@ def py_order(db_symbol) -> PyOrder:  # type: ignore[no-untyped-def]
 
 
 class TestOrderFromPydantic:
-    def test_order_id_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_order_id_is_set(
+        self, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.order_id == "order-001"
 
-    def test_price_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_price_is_set(self, db_symbol: Symbol, py_order: PyOrder) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.price == 50000.0
 
-    def test_amount_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_amount_is_set(self, db_symbol: Symbol, py_order: PyOrder) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.amount == 0.5
 
-    def test_side_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_side_is_set(self, db_symbol: Symbol, py_order: PyOrder) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.side == SideEnum.BUY
 
-    def test_status_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_status_is_set(self, db_symbol: Symbol, py_order: PyOrder) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.status == OrderStatusEnum.ACTIVE
 
-    def test_symbol_id_fk_is_set(self, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_id_fk_is_set(
+        self, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         assert db_ord.symbol_id == db_symbol.id
 
-    def test_null_order_id_stored_as_empty_string(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_null_order_id_stored_as_empty_string(
+        self, db_symbol: Symbol
+    ) -> None:
         py_ord = PyOrder(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             price=1.0,
@@ -58,8 +66,8 @@ class TestOrderFromPydantic:
 
 class TestOrderToPydantic:
     def test_returns_pydantic_order(
-        self, session, db_symbol, py_order
-    ) -> None:  # type: ignore[no-untyped-def]
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         session.add(db_ord)
         session.flush()
@@ -69,7 +77,9 @@ class TestOrderToPydantic:
         result = fetched.to_pydantic()
         assert isinstance(result, PyOrder)
 
-    def test_price_matches(self, session, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_price_matches(
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         session.add(db_ord)
         session.flush()
@@ -78,7 +88,9 @@ class TestOrderToPydantic:
         assert fetched is not None
         assert fetched.to_pydantic().price == 50000.0
 
-    def test_amount_matches(self, session, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_amount_matches(
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         session.add(db_ord)
         session.flush()
@@ -87,7 +99,9 @@ class TestOrderToPydantic:
         assert fetched is not None
         assert fetched.to_pydantic().amount == 0.5
 
-    def test_side_matches(self, session, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_side_matches(
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         session.add(db_ord)
         session.flush()
@@ -96,7 +110,9 @@ class TestOrderToPydantic:
         assert fetched is not None
         assert fetched.to_pydantic().side == SideEnum.BUY
 
-    def test_status_matches(self, session, db_symbol, py_order) -> None:  # type: ignore[no-untyped-def]
+    def test_status_matches(
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
         session.add(db_ord)
         session.flush()
@@ -106,8 +122,8 @@ class TestOrderToPydantic:
         assert fetched.to_pydantic().status == OrderStatusEnum.ACTIVE
 
     def test_symbol_loaded_via_relationship(
-        self, session, db_symbol, py_order
-    ) -> None:  # type: ignore[no-untyped-def]
+        self, session: Session, db_symbol: Symbol, py_order: PyOrder
+    ) -> None:
         # The FK symbol_id links to the symbol table;
         # to_pydantic() navigates the relationship to reconstruct the symbol.
         db_ord = Order.from_pydantic(py_order, symbol_id=db_symbol.id)
@@ -124,7 +140,9 @@ class TestOrderToPydantic:
 
 
 class TestOrderFKRelationship:
-    def test_order_symbol_fk_stored(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_order_symbol_fk_stored(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         db_ord = Order(
             symbol_id=db_symbol.id,
             order_id="fk-test",
@@ -140,7 +158,9 @@ class TestOrderFKRelationship:
         assert fetched is not None
         assert fetched.symbol_id == db_symbol.id
 
-    def test_order_accessible_from_symbol(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_order_accessible_from_symbol(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         db_ord = Order(
             symbol_id=db_symbol.id,
             order_id="reverse-nav",
@@ -158,7 +178,9 @@ class TestOrderFKRelationship:
 
 
 class TestOrderRoundTrip:
-    def test_round_trip_through_db(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_round_trip_through_db(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         py_ord = PyOrder(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             price=42000.0,

@@ -31,10 +31,10 @@ class Actor(Base):  # type: ignore
         return cls(asset=actor.asset)
 
 
-class ExchangeActor(Actor):  # type: ignore
+class ExchangeActor(Actor):
     __mapper_args__ = {"polymorphic_identity": "exchange_actor"}
 
-    def to_pydantic(self) -> PyExchangeActor:  # type: ignore[override]
+    def to_pydantic(self) -> PyExchangeActor:
         return PyExchangeActor(asset=float(self.asset))
 
     @classmethod
@@ -42,10 +42,10 @@ class ExchangeActor(Actor):  # type: ignore
         return cls(asset=actor.asset)
 
 
-class TraderActor(Actor):  # type: ignore
+class TraderActor(Actor):
     __mapper_args__ = {"polymorphic_identity": "trader_actor"}
 
-    def to_pydantic(self) -> PyTraderActor:  # type: ignore[override]
+    def to_pydantic(self) -> PyTraderActor:
         return PyTraderActor(asset=float(self.asset))
 
     @classmethod
@@ -53,10 +53,10 @@ class TraderActor(Actor):  # type: ignore
         return cls(asset=actor.asset)
 
 
-class InvestorActor(Actor):  # type: ignore
+class InvestorActor(Actor):
     __mapper_args__ = {"polymorphic_identity": "investor_actor"}
 
-    def to_pydantic(self) -> PyInvestorActor:  # type: ignore[override]
+    def to_pydantic(self) -> PyInvestorActor:
         return PyInvestorActor(asset=float(self.asset))
 
     @classmethod

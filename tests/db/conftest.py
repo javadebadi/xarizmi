@@ -1,7 +1,8 @@
 import datetime
+from collections.abc import Iterator
 
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
 
 from xarizmi.db.models import Base
@@ -10,7 +11,7 @@ from xarizmi.db.models.symbol import Symbol
 
 
 @pytest.fixture
-def engine():
+def engine() -> Iterator[Engine]:
     eng = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(eng)
     yield eng
@@ -18,13 +19,13 @@ def engine():
 
 
 @pytest.fixture
-def session(engine):
+def session(engine: Engine) -> Iterator[Session]:
     with Session(engine) as sess:
         yield sess
 
 
 @pytest.fixture
-def db_exchange(session):
+def db_exchange(session: Session) -> Exchange:
     exc = Exchange(name="BINANCE")
     session.add(exc)
     session.flush()
@@ -32,7 +33,7 @@ def db_exchange(session):
 
 
 @pytest.fixture
-def db_symbol(session, db_exchange):
+def db_symbol(session: Session, db_exchange: Exchange) -> Symbol:
     sym = Symbol(
         base_currency="BTC",
         quote_currency="USD",
@@ -46,7 +47,7 @@ def db_symbol(session, db_exchange):
 
 
 @pytest.fixture
-def db_eth_symbol(session, db_exchange):
+def db_eth_symbol(session: Session, db_exchange: Exchange) -> Symbol:
     sym = Symbol(
         base_currency="ETH",
         quote_currency="USD",

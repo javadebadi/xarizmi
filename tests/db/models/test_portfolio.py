@@ -1,8 +1,10 @@
 import datetime
 
 import pytest
+from sqlalchemy.orm import Session
 
 from xarizmi.db.models.portfolio import Portfolio, PortfolioItem
+from xarizmi.db.models.symbol import Symbol
 from xarizmi.models.portfolio import Portfolio as PyPortfolio
 from xarizmi.models.portfolio import PortfolioItem as PyPortfolioItem
 from xarizmi.models.symbol import Symbol as PySymbol
@@ -14,7 +16,7 @@ def snapshot_dt() -> datetime.datetime:
 
 
 @pytest.fixture
-def py_portfolio_item(snapshot_dt) -> PyPortfolioItem:  # type: ignore[no-untyped-def]
+def py_portfolio_item(snapshot_dt: datetime.datetime) -> PyPortfolioItem:
     return PyPortfolioItem(
         symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
         market_value=80_000.0,
@@ -24,27 +26,36 @@ def py_portfolio_item(snapshot_dt) -> PyPortfolioItem:  # type: ignore[no-untype
 
 
 class TestPortfolioItemFromPydantic:
-    def test_market_value_is_set(self, db_symbol, py_portfolio_item) -> None:  # type: ignore[no-untyped-def]
+    def test_market_value_is_set(
+        self, db_symbol: Symbol, py_portfolio_item: PyPortfolioItem
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
         assert db_item.market_value == 80_000.0
 
-    def test_quantity_is_set(self, db_symbol, py_portfolio_item) -> None:  # type: ignore[no-untyped-def]
+    def test_quantity_is_set(
+        self, db_symbol: Symbol, py_portfolio_item: PyPortfolioItem
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
         assert db_item.quantity == 1.0
 
     def test_datetime_is_set(
-        self, db_symbol, py_portfolio_item, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        db_symbol: Symbol,
+        py_portfolio_item: PyPortfolioItem,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
         assert db_item.datetime == snapshot_dt
 
-    def test_symbol_id_fk_is_set(self, db_symbol, py_portfolio_item) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_id_fk_is_set(
+        self, db_symbol: Symbol, py_portfolio_item: PyPortfolioItem
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
@@ -53,8 +64,11 @@ class TestPortfolioItemFromPydantic:
 
 class TestPortfolioItemToPydantic:
     def test_returns_pydantic_portfolio_item(
-        self, session, db_symbol, py_portfolio_item
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        py_portfolio_item: PyPortfolioItem,
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
@@ -67,8 +81,11 @@ class TestPortfolioItemToPydantic:
         assert isinstance(result, PyPortfolioItem)
 
     def test_market_value_matches(
-        self, session, db_symbol, py_portfolio_item
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        py_portfolio_item: PyPortfolioItem,
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
@@ -80,8 +97,11 @@ class TestPortfolioItemToPydantic:
         assert fetched.to_pydantic().market_value == 80_000.0
 
     def test_quantity_matches(
-        self, session, db_symbol, py_portfolio_item
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        py_portfolio_item: PyPortfolioItem,
+    ) -> None:
         db_item = PortfolioItem.from_pydantic(
             py_portfolio_item, symbol_id=db_symbol.id
         )
@@ -93,8 +113,11 @@ class TestPortfolioItemToPydantic:
         assert fetched.to_pydantic().quantity == 1.0
 
     def test_symbol_loaded_via_relationship(
-        self, session, db_symbol, py_portfolio_item
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        py_portfolio_item: PyPortfolioItem,
+    ) -> None:
         # The FK symbol_id is the DB link; to_pydantic() navigates the
         # symbol relationship to reconstruct the full pydantic Symbol.
         db_item = PortfolioItem.from_pydantic(
@@ -114,8 +137,11 @@ class TestPortfolioItemToPydantic:
 
 class TestPortfolioItemFKRelationship:
     def test_item_accessible_from_symbol(
-        self, session, db_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         db_item = PortfolioItem(
             symbol_id=db_symbol.id,
             market_value=5000.0,
@@ -131,7 +157,7 @@ class TestPortfolioItemFKRelationship:
 
 
 class TestPortfolioFromPydantic:
-    def test_datetime_is_set(self, snapshot_dt) -> None:
+    def test_datetime_is_set(self, snapshot_dt: datetime.datetime) -> None:
         py_portfolio = PyPortfolio(
             items=[
                 PyPortfolioItem(
@@ -148,8 +174,12 @@ class TestPortfolioFromPydantic:
 
 class TestPortfolioToPydantic:
     def test_round_trip_with_items(
-        self, session, db_symbol, db_eth_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        db_eth_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         # Given a Portfolio saved with two items
         db_portfolio = Portfolio(datetime=snapshot_dt)
         session.add(db_portfolio)
@@ -182,8 +212,12 @@ class TestPortfolioToPydantic:
         assert len(result.items) == 2
 
     def test_portfolio_items_have_correct_symbols(
-        self, session, db_symbol, db_eth_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        db_eth_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         db_portfolio = Portfolio(datetime=snapshot_dt)
         session.add(db_portfolio)
         session.flush()
@@ -205,8 +239,11 @@ class TestPortfolioToPydantic:
         assert result.items[0].symbol.base_currency.name == "BTC"
 
     def test_portfolio_item_portfolio_id_fk(
-        self, session, db_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         # A PortfolioItem may optionally reference a Portfolio
         # via portfolio_id FK.
         db_portfolio = Portfolio(datetime=snapshot_dt)
@@ -228,8 +265,11 @@ class TestPortfolioToPydantic:
         assert fetched_item.portfolio_id == db_portfolio.id
 
     def test_portfolio_item_without_portfolio_id(
-        self, session, db_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         # portfolio_id is optional — items can exist without a parent
         # Portfolio.
         db_item = PortfolioItem(
@@ -249,8 +289,11 @@ class TestPortfolioToPydantic:
 
 class TestPortfolioRoundTrip:
     def test_round_trip_through_db(
-        self, session, db_symbol, snapshot_dt
-    ) -> None:  # type: ignore[no-untyped-def]
+        self,
+        session: Session,
+        db_symbol: Symbol,
+        snapshot_dt: datetime.datetime,
+    ) -> None:
         py_portfolio = PyPortfolio(
             items=[
                 PyPortfolioItem(

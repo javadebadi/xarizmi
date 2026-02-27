@@ -1,4 +1,5 @@
 import pytest
+from sqlalchemy.orm import Session
 
 from xarizmi.db.models.rebalance import (
     PortfolioAllocation,
@@ -6,6 +7,7 @@ from xarizmi.db.models.rebalance import (
     RebalanceItem,
     RebalanceResult,
 )
+from xarizmi.db.models.symbol import Symbol
 from xarizmi.models.rebalance import (
     PortfolioAllocation as PyPortfolioAllocation,
 )
@@ -18,7 +20,9 @@ from xarizmi.models.symbol import Symbol as PySymbol
 
 
 @pytest.fixture
-def py_allocation(db_symbol, db_eth_symbol) -> PyPortfolioAllocation:  # type: ignore[no-untyped-def]
+def py_allocation(
+    db_symbol: Symbol, db_eth_symbol: Symbol
+) -> PyPortfolioAllocation:
     return PyPortfolioAllocation(
         items=[
             PyPortfolioAllocationItem(
@@ -34,13 +38,15 @@ def py_allocation(db_symbol, db_eth_symbol) -> PyPortfolioAllocation:  # type: i
 
 
 class TestPortfolioAllocationFromPydantic:
-    def test_creates_db_object(self, py_allocation) -> None:  # type: ignore[no-untyped-def]
+    def test_creates_db_object(
+        self, py_allocation: PyPortfolioAllocation
+    ) -> None:
         db_alloc = PortfolioAllocation.from_pydantic(py_allocation)
         assert isinstance(db_alloc, PortfolioAllocation)
 
 
 class TestPortfolioAllocationItemFromPydantic:
-    def test_weight_is_set(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_weight_is_set(self, db_symbol: Symbol) -> None:
         py_item = PyPortfolioAllocationItem(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             weight=0.6,
@@ -50,7 +56,7 @@ class TestPortfolioAllocationItemFromPydantic:
         )
         assert db_item.weight == 0.6
 
-    def test_symbol_id_fk_is_set(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_id_fk_is_set(self, db_symbol: Symbol) -> None:
         py_item = PyPortfolioAllocationItem(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             weight=0.5,
@@ -60,7 +66,7 @@ class TestPortfolioAllocationItemFromPydantic:
         )
         assert db_item.symbol_id == db_symbol.id
 
-    def test_allocation_id_fk_is_set(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_allocation_id_fk_is_set(self, db_symbol: Symbol) -> None:
         py_item = PyPortfolioAllocationItem(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             weight=0.5,
@@ -72,7 +78,9 @@ class TestPortfolioAllocationItemFromPydantic:
 
 
 class TestPortfolioAllocationItemToPydantic:
-    def test_returns_pydantic_item(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_returns_pydantic_item(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         db_alloc = PortfolioAllocation()
         session.add(db_alloc)
         session.flush()
@@ -90,7 +98,7 @@ class TestPortfolioAllocationItemToPydantic:
         result = fetched.to_pydantic()
         assert isinstance(result, PyPortfolioAllocationItem)
 
-    def test_weight_matches(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_weight_matches(self, session: Session, db_symbol: Symbol) -> None:
         db_alloc = PortfolioAllocation()
         session.add(db_alloc)
         session.flush()
@@ -107,7 +115,9 @@ class TestPortfolioAllocationItemToPydantic:
         assert fetched is not None
         assert fetched.to_pydantic().weight == 0.35
 
-    def test_symbol_loaded_via_relationship(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_loaded_via_relationship(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         # The symbol FK is the DB link; to_pydantic() uses the relationship
         # to reconstruct the full pydantic Symbol.
         db_alloc = PortfolioAllocation()
@@ -130,8 +140,8 @@ class TestPortfolioAllocationItemToPydantic:
 
 class TestPortfolioAllocationToPydantic:
     def test_round_trip_with_items(
-        self, session, db_symbol, db_eth_symbol
-    ) -> None:  # type: ignore[no-untyped-def]
+        self, session: Session, db_symbol: Symbol, db_eth_symbol: Symbol
+    ) -> None:
         db_alloc = PortfolioAllocation()
         session.add(db_alloc)
         session.flush()
@@ -158,7 +168,9 @@ class TestPortfolioAllocationToPydantic:
         assert isinstance(result, PyPortfolioAllocation)
         assert len(result.items) == 2
 
-    def test_allocation_fk_relationship(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_allocation_fk_relationship(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         # PortfolioAllocationItem has FK allocation_id → PortfolioAllocation.id
         db_alloc = PortfolioAllocation()
         session.add(db_alloc)
@@ -185,7 +197,7 @@ class TestRebalanceResultFromPydantic:
 
 
 class TestRebalanceItemFromPydantic:
-    def test_fields_are_set(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_fields_are_set(self, db_symbol: Symbol) -> None:
         py_item = PyRebalanceItem(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             current_weight=0.8,
@@ -203,7 +215,7 @@ class TestRebalanceItemFromPydantic:
         assert db_item.target_market_value == 50_000.0
         assert db_item.delta_market_value == -30_000.0
 
-    def test_symbol_id_fk_is_set(self, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_id_fk_is_set(self, db_symbol: Symbol) -> None:
         py_item = PyRebalanceItem(
             symbol=PySymbol.build("BTC", "USD", "USD", "BINANCE"),
             current_weight=0.5,
@@ -221,8 +233,8 @@ class TestRebalanceItemFromPydantic:
 
 class TestRebalanceItemToPydantic:
     def test_fields_match_after_db_round_trip(
-        self, session, db_symbol
-    ) -> None:  # type: ignore[no-untyped-def]
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         db_result = RebalanceResult(total_value=100_000.0)
         session.add(db_result)
         session.flush()
@@ -247,7 +259,9 @@ class TestRebalanceItemToPydantic:
         assert result.target_weight == 0.5
         assert result.delta_market_value == -30_000.0
 
-    def test_symbol_loaded_via_relationship(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_symbol_loaded_via_relationship(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         # symbol FK links to Symbol table; to_pydantic() navigates relationship
         db_result = RebalanceResult(total_value=50_000.0)
         session.add(db_result)
@@ -273,8 +287,8 @@ class TestRebalanceItemToPydantic:
 
 class TestRebalanceResultToPydantic:
     def test_round_trip_with_items(
-        self, session, db_symbol, db_eth_symbol
-    ) -> None:  # type: ignore[no-untyped-def]
+        self, session: Session, db_symbol: Symbol, db_eth_symbol: Symbol
+    ) -> None:
         db_result = RebalanceResult(total_value=100_000.0)
         session.add(db_result)
         session.flush()
@@ -310,7 +324,9 @@ class TestRebalanceResultToPydantic:
         assert result.total_value == 100_000.0
         assert len(result.items) == 2
 
-    def test_result_fk_relationship(self, session, db_symbol) -> None:  # type: ignore[no-untyped-def]
+    def test_result_fk_relationship(
+        self, session: Session, db_symbol: Symbol
+    ) -> None:
         # RebalanceItem has FK result_id → RebalanceResult.id
         db_result = RebalanceResult(total_value=10_000.0)
         session.add(db_result)
